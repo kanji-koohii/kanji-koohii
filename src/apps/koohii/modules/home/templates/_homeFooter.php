@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
  * Encode url and text for Twitter buttons.
  *
@@ -25,6 +25,7 @@ use_helper('Widgets');
   <li><?php echo link_to('<i class="fa fa-comment"></i>Blog','news/index')
 ?></li><li><?php echo link_to('<i class="fa fa-envelope"></i>Contact', '@contact')
 ?></li><li class="ne"><?php echo link_to('<i class="fa fa-question"></i>About', 'about/index') ?>
+  <li><a href="https://github.com/fabd/kanji-koohii"><i class="fa fa-code-branch"></i>Source Code</a></li>
 </ul>
       </section>
     </div>
