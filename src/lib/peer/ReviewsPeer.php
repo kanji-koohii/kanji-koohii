@@ -15,6 +15,7 @@
  *  getCountRtK3()
  *  getLeitnerBoxCounts()
  *  getReviewedFlashcardCount()
+ *  getMaximumSequenceNumber()
  *  getHeisigProgressCount()
  *  getTotalReviews()
  *  getMostRecentReviewTimeStamp()

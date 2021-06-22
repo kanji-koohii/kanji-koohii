@@ -9,7 +9,11 @@
     share your best stories (mnemonics) with other members.
   </p>
   <p><?php echo ui_ibtn('Start with '._CJ('kanji').'  #1', '@study_edit?id=1') ?> ... or <strong>enter a number/keyword in the search box</strong>!</p>
-
+  <p><?php 
+    if($latestKanji > 0) {
+      echo ui_ibtn('Continue from '._CJ('kanji').'  #'.($latestKanji+1), '@study_edit?id='.($latestKanji+1));
+    }
+  ?></p>
 <h3>Searching</h3>
 
   <p>You can <strong>search</strong> characters and associated stories by entering: a frame number, a keyword, or the
