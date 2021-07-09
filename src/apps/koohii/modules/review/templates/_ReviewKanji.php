@@ -134,45 +134,33 @@ if (!$freemode) {
 
 <div id="mobile-debug" style="padding:20px 0 0;"></div>
 
-<?php koohii_onload_slot() ?>
-var options =
-{
-  end_url:        "<?= url_for('@review_summary', true) ?>",
-  editstory_url:  "<?= url_for('study/editstory') ?>",
-  dictlookup_url: "<?= url_for('study/dict') ?>",
+<?php
+  $reviewOptions = [
+    'end_url' =>  url_for('@review_summary', true),
+    'editstory_url' => url_for('study/editstory'),
+    'dictlookup_url' => url_for('study/dict'),
 
-  fcr_options: {
-    //num_prefetch: 10,
-    ajax_url:     "<?= $sf_data->get('ajax_url', ESC_JS_NO_ENTITIES) ?>",
-    back_url:     "<?= url_for($exit_url, true) ?>",
-    items:        [<?= implode(',', $sf_data->getRaw('items')) ?>]
-  }
-};
+    'fcr_options' => [
+      //num_prefetch: 10,
+      'ajax_url' => $ajax_url,
+      'back_url' => url_for($exit_url, true),
+      'items' => $items,
+    ]
+  ];
 
-// (wip) Vue refactoring
-Koohii.UX.reviewMode = {
-  freemode:       <?php var_export($freemode) ?>,
-  fc_reverse:     <?php var_export($fc_reverse) ?>,
-  fc_view:        'kanji',
+  // (wip) Vue refactoring
+  $reviewMode = [
+    'freemode' => $freemode,
+    'fc_reverse' => $fc_reverse,
+    'fc_view' => 'kanji',
 
-  fc_known_kanji: <?php var_export($sf_user->getUserKnownKanji()) ?>,
+    'fc_known_kanji' => $sf_user->getUserKnownKanji(),
 
-  // (NOT freemode) edit flashcard menu
-  fc_edit_uri:    "<?= $sf_context->getController()->genUrl('flashcards/dialog') ?>",
-  fc_edit_params: '{"review": 1}'
-};
+    // (NOT freemode) edit flashcard menu
+    'fc_edit_uri' => $sf_context->getController()->genUrl('flashcards/dialog'),
+    'fc_edit_params' => ['review' => 1 ]
+  ];
 
-App.ready(function(){
-  App.KanjiReview.initialize(options);
+  kk_globals_put('REVIEW_OPTIONS', $reviewOptions);
+  kk_globals_put('REVIEW_MODE', $reviewMode);
 
-<?php /*
-  var div = document.getElementById("mobile-debug");
-  div.innerHTML = '<pre style="color:#4a9dd7">(this will be removed soon)' + "\n" +
-    'document client w/h = ' + document.documentElement.clientWidth + 'x' + document.documentElement.clientHeight + "\n" +
-    'document inner  w/h = ' + window.innerWidth + 'x' + window.innerHeight+"\n" +
-    'screen ........ w/h = ' + screen.width+'x'+screen.height+"\n"+
-    'document offset w/h = ' + document.documentElement.offsetWidth + 'x' + document.documentElement.offsetHeight + "\n" +
-    '</pre>';
-*/ ?>
-});
-<?php end_slot() ?>

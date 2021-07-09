@@ -1,22 +1,22 @@
 flashcardlistSuccess:
   metas:
-    title: 'Detailed flashcard list'
+    title: "Detailed flashcard list"
 
 addcustom:
   metas:
-    title: 'Add custom selection'
+    title: "Add custom selection"
 
 removelist:
   metas:
-    title: 'Remove from list'
+    title: "Remove from list"
 
 editkeywords:
   metas:
-    title: 'Edit Keywords'
+    title: "Edit Keywords"
 
 all:
   metas:
-    title: 'Manage Flashcards'
-  
-  javascripts: [ '/revtk/manage.juicy.js' ]
+    title: "Manage Flashcards"
 
+  javascripts:
+    - src/entry-manage.ts

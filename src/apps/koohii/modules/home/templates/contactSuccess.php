@@ -13,14 +13,14 @@
 
     <p style="color:#484"><em><span class="required-legend">*</span> Please provide a valid email address, it will only be used to reply to your message.</em></p>
 
-    <div class="padded-box rounded mb-3" style="max-width:600px">
+    <div class="padded-box rounded mb-3 max-w-[600px]">
 
       <?php echo form_errors() ?>
       <?php echo form_tag('home/contact', ['class'=>'block']) ?>
 
       <div class="form-group">
         <label for="name">Name</label>
-        <?php echo input_tag('name', '', ['class' => 'form-control', 'id' => 'name', 'style' => 'max-width:300px']) ?>
+        <?php echo input_tag('name', '', ['class' => 'form-control JsFocusOnLoadInput', 'id' => 'name', 'style' => 'max-width:300px']) ?>
       </div>
 
       <div class="form-group">
@@ -40,17 +40,13 @@
     </form>
   </div>
 
-<?php koohii_onload_slot() ?>
-App.focusOnLoad('#name');
-<?php end_slot() ?>
-
 <?php else: ?>
 
     <p style="color:#844">
       The <strong>contact form</strong> is available to members only (please <?= link_to('sign in', '@login') ?>).
     </p>
 
-    <div class="padded-box rounded mb-3" style="max-width:600px">
+    <div class="padded-box rounded mb-3 max-w-[600px]">
 
         <p class="mb-2">
           <strong>If you are unable to sign in</strong>, contact:<br>

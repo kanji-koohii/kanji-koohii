@@ -39,9 +39,7 @@
   </div>
 
   <?php koohii_onload_slot() ?>
-  Core.ready(function(){
-    var oAjaxTable = new Core.Widgets.AjaxTable('ProfileStoriesComponent' , { errorDiv: 'MyStoriesTableError' });
-  });
+      new Koohii.UX.AjaxTable('ProfileStoriesComponent' , { errorDiv: 'MyStoriesTableError' });
   <?php end_slot() ?>
 
 <?php else: ?>

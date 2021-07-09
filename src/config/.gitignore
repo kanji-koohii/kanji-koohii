@@ -1,0 +1,6 @@
+# don't automatically add these
+.*
+!.gitignore
+
+# generated / misc files
+vite-build.*

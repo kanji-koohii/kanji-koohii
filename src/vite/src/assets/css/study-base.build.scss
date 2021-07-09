@@ -1,0 +1,275 @@
+/**
+ * Study pages
+ * 
+ */
+
+@import "./_theme.scss";
+@import "@css/components/_EditKeywordDialog.scss";
+@import "@css/components/_EditFlashcardDialog.scss";
+@import "@css/components/_EditStory.scss";
+
+#EditStoryComponent { margin:0 0 2em; }
+#EditStoryComponent h2 { font-size:26px; line-height:34px; /* align to the button*/ }
+
+
+ /* bootstrap-xs-sm */
+@media (max-width: 991px) {
+  .study-index #main_container,
+  .study-edit  #main_container { padding-top:0; }
+}
+
+
+
+.edition { padding-left:0.5em; font-size:0.83em; /* 10px */ color:#979797; }
+
+#rtkmain { margin-bottom:1em; }
+
+
+
+/* ------------------ */
+/* Dictionary         */
+/* ------------------ */
+#DictStudy {
+  padding-top:0; padding-bottom:0; margin-bottom:1em;
+}
+
+#DictHead { 
+  font-size:1.1em; line-height:33px; padding:0 15px; zoom:1;
+  color:#646250; cursor:pointer;
+  text-shadow:0 1px rgba(255,255,255,0.75);
+
+  background: #cfd67f; /* Old browsers */
+  background: -webkit-linear-gradient(top,  #cfd67f 0%,#e3ecb1 100%); /* Chrome10+,Safari5.1+ */
+  background: linear-gradient(to bottom,  #e3ecb1 0%,#cfd67f 100%); /* W3C */
+}
+
+
+/* ------------------ */
+/* Shared Stories     */
+/* ------------------ */
+
+#SharedStoriesComponent { padding-top:0; }
+
+.sharedstories_title {
+  margin:0 0 12px; font-size:1.1em; line-height:33px; padding:0 15px; zoom:1;
+  text-shadow:0 1px rgba(255,255,255,0.75);
+  position:relative; /* for the toggle icon */
+}
+
+  /* "Favourites" */
+#sharedstories-top { padding:0 0 4px; }
+#sharedstories-top .title {
+  margin:0 0 1em;
+  color:#583d8a; text-shadow:0 1px rgba(255,255,255,0.75);
+
+  background: #ddcdfc; /* Old browsers */
+  background: linear-gradient(to bottom,  #e4d9ff 0%,#d2c8e5 100%); /* W3C */
+
+  border-bottom:1px solid #b5a5d5;
+}
+
+/* when a story is favourited, do not show the report icon (this avoids some inconsistencies) */
+#sharedstories-top .report { display:none; }
+
+  /* New & updated" */
+#sharedstories-new .title { 
+  color:#646250; cursor:pointer;
+
+  /* http://colorzilla.com/gradient-editor/#eeedd0+0,d9d6b7+100 */
+  background: #eeedd0; /* Old browsers */
+  background: linear-gradient(to bottom, #eeedd0 0%,#d9d6b7 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  
+  border-bottom:1px solid #bdbcaa;
+}
+
+  /* Shared stories (main section) */
+#sharedstories-fav .title { 
+  color:#42651D; margin-top:1.5em;
+
+  /* http://colorzilla.com/gradient-editor/#d9f5bf+0,cde8ad+100 */
+  background: #d9f5bf; /* Old browsers */
+  background: linear-gradient(to bottom, #d9f5bf 0%,#cde8ad 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  
+  border-bottom:1px solid #bccdac;
+}
+
+ /* newest stories toggle */
+#sharedstories-new.JsHide .title { margin-bottom:-1.5em; }
+#sharedstories-new.JsHide .sharedstory { display:none; }
+
+ /* shared stories paged list */
+#SharedStoriesListComponent .uiPagerDiv { background:#ecf1cd; margin:-12px 0 15px; padding:6px 20px; }
+#SharedStoriesError p { color:#935a00; background:#ffe5b2; border-radius:5px; padding:10px; margin:0 0 1em; }
+
+ /* single public story */
+.sharedstory { font-size:16px; }
+
+.sharedstory_author { font-size:80%; }
+.sharedstory_author a { display:inline-block; padding:0.3em 0.5em 0.5em 0; /*tap target*/ text-decoration:none; }
+
+.sharedstory.rtkframe { padding:8px 15px 5px; border-bottom:1px solid #d4d4d4; }
+/*.sharedstory.rtkframe strong  { font-weight:bold; }*/
+/*.sharedstory.rtkframe em  { font-weight:normal; font-style:italic; }*/
+
+.sharedstory em.star { font-style:normal; margin:0 8px 0 0; }
+
+.sharedstory_meta {
+  min-height:30px; margin:0.5em -0.5em 0 0; font-size:14px; line-height:1em;
+  clear:both; /* clear big kanji (desktop) just in case */
+}
+.sharedstory_meta .lastmodified,
+.sharedstory_meta .sharedstory_btn { color:#b2b2b2; }
+/*.sharedstory_meta .lastmodified { padding:0.5em 0; font-size:14px; }*/
+
+.sharedstory_btn { display:inline-block; padding:0.5em 0.5em; }
+.sharedstory_btn, .sharedstory_btn:focus { text-decoration:none; }
+.sharedstory_btn span { margin-left:0.5em; }
+
+ /* desktop :hover */
+.sharedstory_btn:hover { color:#444; text-decoration:none; }
+.sharedstory_btn:hover .fa-exclamation, #my-stories .fa-exclamation { color:#ff9a9a; }
+.sharedstory_btn:hover .fa-star:before, #my-stories .fa-star:before { color:#f0c000; }
+
+/* shared stories hide/unhide reported stories */
+.sharedstory .JsUnhide { color:#C88; font-size:10px; margin-left:1em; }
+#SharedStoriesComponent .is-moderated .rtkframe { opacity:0.5; background:none; border:none; padding:0 0 6px; }
+#SharedStoriesComponent .is-moderated .story { display:none; }
+
+
+/* MY STORIES */
+ /* big kanji on desktop, line up with framenum on mobile */
+.mystories-kanji {
+  float:left; color:#000; text-align:center; line-height:1em;
+  font-size:1.5em; width:1.5em; padding:0 0.25em 0 0; margin-left:-0.25em; margin-top:0.25em;
+}
+
+ /* line up kanji, framenum on mobile */
+.mystories-hd { display:table; /*width:100%;*/ margin:0 0 0.7em; color:#4e4e4e; }
+.mystories-hd .td { display:table-cell;  }
+.mystories-hd_fn { width:1%; padding:0.5em 0.25em 0; color:#777; vertical-align:top; }
+.mystories-hd_kw { text-align:right; font-family:Georgia, serif; font-size:1.125em; }
+.mystories-hd_kw a { text-decoration:none; /* tap target */ display:inline-block; padding:0.3em 0; }
+.mystories-hd_kw a:hover { text-decoration:underline; }
+
+ /* "100% correct way" sm */
+@media (min-width: 600px) {
+
+  /* show background between vertica stories */
+  .sharedstory { margin-bottom:0.5em; }
+
+  /* big kanji to the left on desktop */
+  #my-stories .rtkframe { padding-left:6.25em; }
+  .mystories-kanji { margin-left:-85px; width:80px; font-size:3.5em; }
+}
+
+ /* bootstrap-md-lg */
+@media (min-width: 992px) {
+  /* less contrating themes for desktop sidebar */
+  #browse { border-radius:4px; background:$--clr-bg-1; }
+  .study-search_btn { background:$--clr-bg-1s; }
+
+  #study-restudy,
+  #study-learned { border-radius:4px; }
+
+  /* cleanup : move styles from EditStoryComponent */
+  .rtkframe { border:1px solid #e8e5c9; }
+}
+
+
+/* ------------------- */
+/* My Stories          */
+/* ------------------- */
+
+/* this is SO much simpler then flex ... */
+.my-stories-select { display:table; }
+.my-stories-select .td { display:table-cell; padding:0 0.5em 0 0; vertical-align:middle; }
+.my-stories-select select { width:140px; }
+
+#stories-list div.pager { float:right; padding:0 0 0.5em 2em; font-size:11px; }
+
+
+/* ------------------ */
+/* Study Search       */
+/* ------------------ */
+
+#browse { padding:6px 15px; background:#444342;  }
+
+.study-search_input {  }
+.study-search_input input {  }
+.study-search_btn { 
+  display:block; min-width:42px; height:34px;
+  text-align:center; color:#6b6762; font-size:20px; line-height:34px;
+  background-color:#322F2C;
+}
+.study-search_btn:hover { background:$--clr-bg-gl; }
+/*.study-search_btn.is-prev {  }*/
+/*.study-search_btn.is-next {  }*/
+
+
+/* ------------------ */
+/* Learned            */
+/* ------------------ */
+
+ /* unlike search box, these blocks do not extend to edges, so they are distinct
+    from the search bar, and appear as part of the main content */
+.study-action-comp {
+  padding:6px 15px; 
+}
+.study-action-comp h3, .study-action-comp .btn { font-size:18px; }
+.study-action-comp h3 { font-weight:normal; line-height:34px; margin:0; }
+.study-action-comp h3 span { font-weight:bold; }
+
+ /* tighten buttons a bit*/
+.study-action-comp .btn { padding:7px 12px; line-height:1em; }
+
+ /* restudy pane */
+#study-restudy { background:#ff7875;  }
+#study-restudy, #study-restudy h3 { color:#861c1c; }
+#study-restudy .btn-primary { background:inherit; border-color:rgba(134,28,28,0.4); color:#fff; }
+
+ /* learned pane */
+#study-learned { background:#c7dfa9; }
+#study-learned h3 { color:#457a45; }
+#study-learned h3 span { color:#0f7439; }
+
+#study-learned .dismiss-msg { font-size:18px; color:#457a45; }
+#study-learned .btn-dismiss .fa { margin:0; }
+
+#study-learned .btn-danger  { border-color:#26a65b; color:#06863b; background:inherit; }  /* clear */
+
+
+/* ------------------- */
+/* Search autocomplete */
+/* ------------------- */
+/* (js/autocomplete.js) dropdown div + table (hardcoded width for study area atm.) */
+
+#actb-txtSearch { width:100%; }
+
+#actbdiv table { background:white; border:1px solid #7F9DB9; }
+#actbdiv tr { cursor:pointer; }
+#actbdiv td { font-size:12px; padding:5px 2px; line-height:20px; vertical-align:middle; }
+#actbdiv tr.highlight { background:#3366CC; color:#fff; }
+#actbdiv tr.highlight span.framenum, 
+#actbdiv tr.highlight span.k { color:#eee; }
+#actbdiv tr span.h { font-weight:bold; }
+#actbdiv tr.inactive span.h { color:#3366CC; }
+#actbdiv tr.more td { color:#888; }
+#actbdiv td span.f { float:right; width:28px; padding-left:4px; color:#a0a0a0; text-align:right; }
+#actbdiv td span.k { float:right; font-size:22px; line-height:22px; color:#444; } /* small images in dropdown */
+
+
+
+/* failed kanji */
+table.failed-kanji td { background-color:#fff; border-top:1px solid #eee; }
+
+
+
+ /* bootstrap-md-lg */
+@media (min-width: 992px) {
+  /* less contrating themes for desktop sidebar */
+  #browse { border-radius:4px; background:$--clr-bg-1; }
+  .study-search_btn { background:$--clr-bg-1s; }
+
+  #study-restudy,
+  #study-learned { border-radius:4px; }
+}

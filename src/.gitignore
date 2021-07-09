@@ -5,10 +5,10 @@
 # don't automatically add these
 .*
 !.gitignore
-!.babelrc
-!.eslintrc.js
-!.prettierrc.js
-!.stylelintrc.yml
+# !.babelrc
+# !.eslintrc.js
+# !.prettierrc.js
+# !.stylelintrc.yml
 !/web/.htaccess_default
 
 # php-cs-fixer
@@ -22,7 +22,7 @@ error_log*
 
 # generated / misc files
 /cache
-/config/versioning*
+/config/vite-build.*
 
 # generated / output from Juicer (frontend build tool) 
 *.juiced.js
@@ -40,6 +40,7 @@ error_log*
 
 # npm install
 /node_modules
+/vite/node_modules
 
 # admin/misc
 /web/*.php

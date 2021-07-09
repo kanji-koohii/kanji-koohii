@@ -6,16 +6,15 @@ default:
     content-type: text/html
 
   metas:
-    title:        'Kanji Koohii'
-    description:  'Study the Japanese characters with James Heisig''s "Remembering the Kanji" method, and review with kanji flashcards.'
+    title: "Kanji Koohii"
+    description: 'Study the Japanese characters with James Heisig''s "Remembering the Kanji" method, and review with kanji flashcards.'
     #keywords:     symfony, project
     #language:     en
     #robots:       NE PAS INCLURE ROBOTS SINON CA REMPLACE LE STAGING (cf. layout)
 
-  # any global styles/scripts would go here (removed since webpack 4 build)
-  #javascripts:
-  #  - '/foo/bar/baz.js'
+  # DO NOT add global css/js here ==> see coreWebResponse::addViteEntries()
+  # javascripts:
+  #   - ...
 
-  has_layout:     true
-  layout:         layout
-
+  has_layout: true
+  layout: layout

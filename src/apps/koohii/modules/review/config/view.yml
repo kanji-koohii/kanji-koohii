@@ -1,11 +1,14 @@
 indexSuccess:
   metas:
     title: 'Spaced Repetition - Kanji Koohii'
+  javascripts:
+    - src/entry-review.ts
 
 reviewSuccess:
   metas:
     title: 'Flashcard Review'
-  javascripts: [ /revtk/kanji-flashcardreview.juicy.js ]
+  javascripts:
+    - src/entry-review.ts
 
 summarySuccess:
   metas:

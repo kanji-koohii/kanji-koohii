@@ -66,9 +66,6 @@ RUN locale-gen en_US.UTF-8 en_GB.UTF-8
 
 RUN a2enmod rewrite expires
 
-# fix "Could not reliably determine the server's fully qualified domain name"
-RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf
-
 # Configure PHP
 ADD koohii.php.ini /etc/php/7.4/apache2/conf.d/
 
@@ -89,6 +86,9 @@ EXPOSE 80
 EXPOSE 443
 EXPOSE 8080
 EXPOSE 8888
+
+# for Vite dev server
+EXPOSE 3000
 
 RUN rm /var/www/html/index.html
 

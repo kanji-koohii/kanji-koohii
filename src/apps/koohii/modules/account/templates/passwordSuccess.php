@@ -1,17 +1,17 @@
-<?php use_helper('Form', 'Validation', 'Decorator') ?>
+<?php use_helper('Form', 'Validation', 'Decorator'); ?>
 
-<?php decorate_start('SideTabs', ['active' => 'changepassword']) ?>
+<?php decorate_start('SideTabs', ['active' => 'changepassword']); ?>
 
   <h2>Change Password</h2>
 
 <?php
     // echo form_errors();
 
-    echo form_tag('account/password', ['class'=>'block']);
+    echo form_tag('account/password', ['class' => 'block']);
 
     echo _bs_form_group(
       ['validate' => 'oldpassword'],
-      _bs_input_password('oldpassword', ['label' => 'Old Password'])
+      _bs_input_password('oldpassword', ['label' => 'Old Password', 'class' => 'JsFocusOnLoadInput'])
     );
 
     echo _bs_form_group(
@@ -30,9 +30,4 @@
 ?>
     </form>
 
-
-<?php koohii_onload_slot() ?>
-App.focusOnLoad('#oldpassword');
-<?php end_slot() ?>
-
-<?php decorate_end() ?>
+<?php decorate_end(); ?>

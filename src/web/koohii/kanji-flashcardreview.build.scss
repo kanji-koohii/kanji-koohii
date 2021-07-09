@@ -1,9 +1,0 @@
-// legacy stylesheets imported by webpack in the review bundle
-// for legacy comppnents not using Vue.
-
-@import "./components/_EditKeywordDialog.scss";
-@import "./components/_EditFlashcardDialog.scss";
-
-body {
-  padding-top: 0;
-}

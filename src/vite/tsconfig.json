@@ -1,0 +1,71 @@
+{
+  "compilerOptions": {
+    ///////////////////////////////////////////////////////////////////
+    // set by @vitejs/app (vue-ts)
+    ///////////////////////////////////////////////////////////////////
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "node",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "lib": [
+      "esnext",
+      "dom",
+      "dom.iterable",
+    ],
+    "types": [
+      "vite/client"
+    ],
+    ///////////////////////////////////////////////////////////////////
+    // suggested by Volar
+    ///////////////////////////////////////////////////////////////////
+    // let Volar parse old Vue components
+    "allowJs": true,
+    // instead of `@typescript-eslint/no-unused-vars`
+    "noUnusedLocals": false,
+    ///////////////////////////////////////////////////////////////////
+    // additions
+    ///////////////////////////////////////////////////////////////////
+    "allowSyntheticDefaultImports": true,
+    "importHelpers": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "baseUrl": ".",
+    // also see `resolve.alias` in vite.config.js
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "@css/*": [
+        "src/vite/src/assets/css/*"
+      ],
+      "@app/*": [
+        "src/app/*"
+      ],
+      "@lib/*": [
+        "src/lib/*"
+      ],
+      "@old/*": [
+        "src/app/legacy/*"
+      ],
+    },
+  },
+  ///////////////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////////////
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue"
+  ],
+  ///////////////////////////////////////////////////////////////////
+  // exclude folders for IntelliSense performance, exclude build files
+  ///////////////////////////////////////////////////////////////////
+  "exclude": [
+    "node_modules"
+  ]
+}

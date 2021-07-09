@@ -15,9 +15,9 @@
     $storedStory   = StoriesPeer::getStory($userId, $ucsId);
     $postStoryEdit = ($storedStory ? $storedStory->text : '');
     $initStoryData = [
-      'postStoryEdit'   => $postStoryEdit,
-      'postStoryPublic' => (bool) ($storedStory && $storedStory->public),
-      'postStoryView'   => StoriesPeer::getFormattedStory($postStoryEdit, $formatKeyword, true)
+      'initStoryEdit'   => $postStoryEdit,
+      'initStoryPublic' => (bool) ($storedStory && $storedStory->public),
+      'initStoryView'   => StoriesPeer::getFormattedStory($postStoryEdit, $formatKeyword, true)
     ];
 
     // IF ... on Study page, is in the red pile, is not yet "Added to learn list"
@@ -70,21 +70,19 @@ EOD;
 <?php else: ?>
 
   <div id="EditStoryComponent">
-    
     <div style="position:relative;">
       <h2><?php echo $title; ?></h2>
       <?php if (CJK::isCJKUnifiedUCS($kanjiData->ucs_id)) { echo get_flashcard_button($userId, $sf_context, $kanjiData->ucs_id); } ?>
     </div>
 
-    <div id="JsEditStoryInst" style="min-height:100px;">     
-
-<!-- placeholder till Vue comp is mounted -->
-<?php
-  include_partial('EditStoryPlaceholder', [
-    'kanjiData' => $kanjiData, 'formattedStory' => $initStoryData['postStoryView'], 'custKeyword' => $custKeyword]) ?>
-   
+    <div id="JsEditStoryInst" class="min-h-[100px]">
+      <!-- placeholder till Vue comp is mounted -->
+      <?php include_partial('EditStoryPlaceholder', [
+        'kanjiData' => $kanjiData,
+        'formattedStory' => $initStoryData['initStoryView'],
+        'custKeyword' => $custKeyword])
+      ?>
     </div>
-
   </div>
 
   <div id="DictStudy" class="col-box no-gutter-xs-sm">
@@ -167,21 +165,10 @@ EOD;
     'kanjiData'     => $kanjiData,
     'custKeyword'   => $custKeyword,
 
-    // $initStoryData
-    // 'postStoryEdit'   => 
-    // 'postStoryView'   =>
-    // 'postStoryPublic' =>
-
     // Study page only (not for flashcards "edit story" dialog)
     'showLearnButton'    => $showLearnButton,
     'showLearnedMessage' => $showLearnedMessage
   ];
 
   $propsData = array_merge($propsData, $initStoryData);
-
-  koohii_onload_slot();
-?>
-
-  Koohii.Refs.vueEditStory = VueInstance(Koohii.UX.KoohiiEditStory, '#JsEditStoryInst', <?= json_encode($propsData) ?>, /* replace! */ true);
-
-<?php end_slot() ?>
+  echo kk_globals_put('EDITSTORY_PROPS', $propsData);

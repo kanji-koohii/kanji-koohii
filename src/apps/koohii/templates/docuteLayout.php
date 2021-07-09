@@ -12,7 +12,8 @@
   // $pageId = $sf_request->getParameter('module').'-'.$sf_request->getParameter('action');
   
   // reset default app css/js
-  $sf_response->clearStuffsRefactorMe();
+  $sf_response->clearStylesheets();
+  $sf_response->clearJavascripts();
 ?>
 <?php include_stylesheets() ?>
   <link rel="stylesheet" href="https://unpkg.com/docute/dist/docute.css">

@@ -94,8 +94,6 @@ Koohii.UX.reviewMode = {
   fc_view:        'vocabshuffle'
 };
 
-App.ready(function(){
-  App.LabsReview.initialize(options);
-});
+App.LabsReview.initialize(options);
 <?php end_slot() ?>
 

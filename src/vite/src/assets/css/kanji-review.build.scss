@@ -1,0 +1,16 @@
+// legacy stylesheets imported by webpack in the review bundle
+// for legacy comppnents not using Vue.
+
+@import "@css/components/_EditKeywordDialog.scss";
+@import "@css/components/_EditFlashcardDialog.scss";
+@import "@css/components/_EditStory.scss";
+
+// extremely obsolete CSS : the review page
+@import "@css/components/_Flashcard.scss";
+
+// extremely obsolete CSS : styles more specific to the kanji cards
+@import "@css/components/_FlashcardKanji.scss";
+
+body {
+  padding-top: 0;
+}

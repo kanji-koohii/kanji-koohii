@@ -12,16 +12,16 @@
 
 <?php //DBG::request() ?>
 
-<?= form_tag('account/create', ['id' => 'signup-form', 'autocomplete' => 'false']) ?>
+<?php echo form_tag('account/create', ['id' => 'signup-form', 'class' => 'JsFocusOnLoadError', 'autocomplete' => 'false']); ?>
 
-<div class="padded-box rounded mb-3" style="max-width:380px">
+<div class="padded-box rounded mb-3 max-w-[380px]">
 <?php
     // we use new 'validate' option to display error message below the input field
     // echo form_errors()
 
     echo _bs_form_group(
       ['validate' => 'username'],
-      _bs_input_text('username', ['label' => 'Username'])
+      _bs_input_text('username', ['label' => 'Username', 'class' => 'JsFocusOnLoadInput'])
     );
 
     echo _bs_form_group(
@@ -41,14 +41,14 @@
 
     echo _bs_form_group(
       [
-        'validate'  => 'location',
-        'style'     => 'margin-bottom:0'
+        'validate' => 'location',
+        'style' => 'margin-bottom:0',
       ],
       _bs_input_text('location', [
-        'label'     => 'Where do you live?',
-        'optional'  => true,
-        'helptext'  => 'Eg. "Tokyo, Japan" or just "Japan"',
-        'autocomplete' => 'off'
+        'label' => 'Where do you live?',
+        'optional' => true,
+        'helptext' => 'Eg. "Tokyo, Japan" or just "Japan"',
+        'autocomplete' => 'off',
       ])
     );
 ?>
@@ -57,41 +57,27 @@
 <div class="padded-box rounded mb-3" style="max-width:380px">
 <?php
     echo _bs_form_group(
-      [
-        'validate'  => 'question', 
-        'class'     => 'form-section'
-      ],
-      _bs_input_text('question', [
-        'label'     => 'What is the capital of J&nbsp;A&nbsp;P&nbsp;A&nbsp;N ?',
-        'helptext'  => '(Help us stop spam!)',
-        'autocomplete' => 'off'
-      ])
-    );
+  [
+    'validate' => 'question',
+    'class' => 'form-section',
+  ],
+  _bs_input_text('question', [
+    'label' => 'What is the capital of J&nbsp;A&nbsp;P&nbsp;A&nbsp;N ?',
+    'helptext' => '(Help us stop spam!)',
+    'autocomplete' => 'off',
+  ])
+);
 ?>
-    <p>If you are stuck you can <?php echo link_to('request an account', '@contact') ?></p>
+    <p>If you are stuck you can <?php echo link_to('request an account', '@contact'); ?></p>
 
 </div><!-- /padded-box -->
 
 <div class="padded-box rounded mb-3" style="max-width:380px">
 <?php
     echo _bs_form_group(
-      _bs_submit_tag('Create Account', ['class' => 'btn-lg'])
-    );
+  _bs_submit_tag('Create Account', ['class' => 'btn-lg'])
+);
 ?>
 </div><!-- /padded-box -->
 
 </form>
-
-<?php koohii_onload_slot() ?>
-App.ready(function() {
-  
-  // focus the first input field, or if there is an error the first invalid field
-  const $$ = window.Koohii.Dom;
-  const errorDiv = $$('#signup-form .has-error')[0];
-    elFocus = errorDiv
-      ? $$('.form-control', errorDiv)[0]
-      : $$('#signup-form .form-control')[0];
-  App.focusOnLoad(elFocus);
-
-});
-<?php end_slot() ?>

@@ -1,0 +1,511 @@
+/* ================================================================================= */
+/* FLASHCARD PAGE LAYOUT  styles  (independent of review modes) */
+/* ================================================================================= */
+/* This part was the common bundle for php templates kanji & vocab review modes.     */
+/* The styles match the php templates, eventually they will move to a corresponding  */
+/* parent component, that acts as the container for the flashcard, progress bar, etc */
+/* ================================================================================= */
+
+/* Ajax loading indicator (using FontAwesome5 spinners) */
+#uiFcAjaxLoading {
+  position: absolute;
+  right: 22px;
+  top: 3px;
+  z-index: 1000;
+  padding: 0.5em 0.8em;
+  background: #4a9dd6;
+  border-radius: 3px;
+  color: #fff;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 16px;
+}
+#uiFcAjaxLoading i {
+  margin-right: 0.3em;
+}
+
+/* Error message */
+#uiFcAjaxError {
+  position: absolute;
+  right: 22px;
+  top: 3px;
+  z-index: 1000;
+  padding: 0.5em 0.8em;
+  background: #c0392b;
+  border-radius: 3px;
+  color: #ffc9c3;
+  font-size: 14px;
+  font-weight: bold;
+  line-height: 16px;
+}
+#uiFcAjaxError a {
+  color: #fff;
+  font-weight: bold;
+}
+
+/* we'll turn this into a theme some day, for now it's just a background */
+.uiFcLayout {
+  /* http://colorzilla.com/gradient-editor/#c4e6ff+0,92c3e4+100 */
+  background: #92c3e4;
+  background: #92c3e4 linear-gradient(to bottom, #c4e6ff 0%, #92c3e4 100%) 100%/200%
+    no-repeat; /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+}
+
+/* top row of option buttons */
+.uiFcOptions {
+  margin: 0 0 0.5em;
+  padding: 0 0 0 10px;
+}
+
+.uiFcOptBtn {
+  float: left;
+  height: 37px;
+  padding: 5px 15px 0;
+  margin: -5px 5px 0 0;
+  font: bold 14px/36px Arial, sans-serif;
+  color: #fff;
+  text-shadow: 0 -1px rgba(0, 0, 0, 0.5);
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  background: #50abeb;
+  background: -webkit-linear-gradient(top, #50abeb 0%, #489ad4 100%);
+  background: linear-gradient(to bottom, #50abeb 0%, #489ad4 100%);
+}
+.uiFcOptBtn:hover,
+.uiFcOptBtn:focus {
+  color: #e6eefb;
+  background: #007be3;
+  background: linear-gradient(to bottom, #268bd2 0%, #227dbd 100%);
+}
+.uiFcOptBtn u {
+  color: #eaf6ff;
+  padding-right: 1px;
+}
+.uiFcOptBtn,
+.uiFcOptBtn:hover {
+  text-decoration: none;
+}
+.uiFcOptBtn span {
+  cursor: hand;
+}
+
+.uiFcOptBtnExit {
+}
+.uiFcOptBtnHelp {
+}
+.uiFcOptBtnUndo {
+} /* Undo answer */
+.uiFcOptBtnStory {
+} /* EditStory window */
+
+/* answer button styles */
+.uiFcButtons .uiIBtnDefault {
+  font-size: 16px;
+  line-height: 41px;
+  height: 42px;
+} /* larger buttons for touch/mobile */
+
+#uiFcBtnAF {
+  background: #268bd2;
+  background: -webkit-linear-gradient(top, #268bd2 0%, #227dbd 100%);
+  background: linear-gradient(to bottom, #268bd2 0%, #227dbd 100%);
+}
+#uiFcBtnAE {
+  background: #2aa198;
+  background: -webkit-linear-gradient(top, #2aa198 0%, #269189 100%);
+  background: linear-gradient(to bottom, #2aa198 0%, #269189 100%);
+}
+
+/* button layout */
+#uiFcBtnAF {
+  width: 98%;
+} /* flip */
+
+#uiFcButtons .uiIBtn {
+  display: inline-block;
+  margin: 0 1%;
+}
+
+#uiFcButtons1 .uiIBtn {
+  width: 48%;
+} /* 2 buttons */
+
+#uiFcButtons1.three-buttons #uiFcBtnAN {
+  width: 18%;
+} /* 3 buttons */
+#uiFcButtons1.three-buttons #uiFcBtnAH {
+  width: 18%;
+}
+#uiFcButtons1.three-buttons #uiFcBtnAY {
+  width: 38%;
+}
+#uiFcButtons1.three-buttons #uiFcBtnAE {
+  width: 18%;
+}
+
+/* flashcard answer area */
+.uiFcButtons {
+  padding: 15px 0 25px;
+  margin: 0 auto;
+  text-align: center;
+}
+.uiFcButtons h3 {
+  font: 17px/33px Arial, sans-serif;
+  color: #408fc6;
+  text-align: center;
+  margin: 0;
+  padding: 0 0 5px;
+}
+#uiFcButtons a {
+  padding: 0;
+}
+#uiFcButtons a span {
+  width: auto;
+  padding: 0;
+}
+.uiFcButtons a img {
+  margin: 0 10px;
+}
+.uiFcButtons u {
+}
+
+/* stats panel */
+.uiFcStats {
+  width: 185px;
+  margin: 0 0 0 10%;
+  color: #408fc6;
+}
+.uiFcStats .uiIBtn {
+  display: block;
+} /* used on Vocab Shuffle */
+
+.uiFcStBox {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  background-color: #94d3ff;
+  padding: 5px;
+}
+.uiFcStBox h3 {
+  font: 14px/21px Arial, sans-serif;
+  color: #408fc6;
+  padding: 0 0 4px;
+  text-align: center;
+}
+.uiFcStBox em {
+  font-style: normal;
+  color: #0a3e62;
+}
+.uiFcStBoxClear {
+  width: 100%;
+  clear: both;
+  padding: 0 0 9px;
+}
+
+#uiFcPiles {
+  display: table;
+  height: 43px;
+}
+#uiFcPiles .td {
+  display: table-cell;
+  vertical-align: middle;
+}
+#uiFcPiles .stack {
+  font-size: 21px;
+  line-height: 1em;
+  color: #0a3e62;
+}
+#uiFcPiles .stack .fa {
+  font-size: 24px;
+  margin-right: 0.2em;
+}
+#uiFcPiles .stack span {
+  color: #474747;
+}
+#uiFcPiles .fa-check {
+  color: #27ae60;
+}
+#uiFcPiles .fa-times {
+  color: #c0392b;
+}
+
+/* finish review button ("End") */
+#uiFcEnd {
+  padding: 1px 0 0;
+}
+#uiFcEnd a {
+  display: block;
+  text-align: center;
+  font: bold 14px/29px Arial, sans-serif;
+  color: #0097ff;
+  text-decoration: none;
+  /* make it look like a button! */
+  border-bottom: 4px solid #268bd2;
+}
+#uiFcEnd a:active,
+#uiFcEnd a:hover {
+  margin-top: 2px;
+  border-bottom-width: 2px;
+  background-color: #7dc2f3;
+  color: #fff;
+}
+
+/* Help dialog */
+.rtk-skin-dlg .uiFcHelpDlg {
+  max-width: 350px;
+}
+.uiFcHelpDlg p {
+  margin: 0 0 1em;
+  font-size: 14px;
+}
+
+/* MAIN PAGE LAYOUT  */
+
+#fr-body {
+  width: 900px;
+  margin: 50px auto 0;
+  padding: 0 10px;
+}
+
+#rd-tops {
+  float: right;
+  width: 175px;
+  padding: 0 0 12px;
+}
+
+#rd-main {
+  float: left;
+  width: 500px;
+  margin: 0 0 0 175px;
+}
+
+#uiFcReview {
+  width: 500px;
+}
+#uiFcButtons {
+  width: 100%;
+}
+
+#rd-side {
+  float: right;
+  width: 175px;
+}
+
+#uiFcProgressBar {
+  width: 100%;
+  margin: 0 auto;
+  position: relative;
+}
+.uiFcPrBarMod {
+  padding: 24px 0 0;
+} /* space for h3 above bar */
+#uiFcProgressBar h3 {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  padding: 4px 0 0;
+}
+
+#uiFcStats {
+  width: 100%;
+  margin: 0 auto;
+}
+#uiFcPiles {
+  margin-bottom: 1em;
+}
+#uiFcPiles {
+  width: 64%;
+  float: left;
+  padding-right: 0;
+}
+#uiFcEnd {
+  width: 28%;
+  float: right;
+}
+#uiFcStDeld {
+  margin: 1em 0 0;
+}
+
+/* responsive layout */
+@media screen and (max-width: 900px) {
+  #fr-body {
+    width: 700px;
+  }
+  #rd-main {
+    margin-left: 0;
+  }
+}
+
+/* typography */
+#uiFcProgressBar,
+#uiFcStats {
+  font-family: Arial, sans-serif;
+}
+
+/* Deleted Cards box */
+#uiFcStDeldK {
+  padding: 0 5px 5px;
+  margin: 0;
+  width: 165px;
+  font-size: 18px;
+  line-height: 1.2em;
+  letter-spacing: 0px;
+  color: red;
+}
+
+/* ================================================================================= */
+/* MOBILE LAYOUT (common styles) */
+/* ================================================================================= */
+
+@media screen and (max-width: 700px) {
+  /* overwrite the response layout of the desktop (including the media query styles) */
+  #fr-body {
+    width: auto;
+    margin-top: 0;
+  }
+
+  #rd-tops {
+    float: none;
+    width: 100%;
+    padding-top: 4px;
+  }
+
+  #rd-main {
+    float: none;
+    width: 100%;
+    margin: 0;
+  }
+  #uiFcButtons {
+    padding: 12px 0 15px;
+  }
+  #uiFcButtons u {
+    text-decoration: none;
+  } /* hide the keyboard shortcut hints */
+  #uiFcButtons h3 {
+    display: none;
+  } /* remove prompts to save space */
+
+  #uiFcReview {
+    width: auto;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  #rd-side {
+    float: none;
+    width: 250px;
+    margin: 0 auto;
+  }
+  #uiFcStats {
+    width: 100%;
+  }
+
+  #uiFcOptions {
+  }
+
+  /* use a "minified" version of progress bar with text overlaid on top */
+  #uiFcProgressBar {
+  }
+  .uiFcPrBarMod {
+    padding: 0;
+  }
+  #uiFcProgressBar .uiFcStBox {
+    padding: 0;
+    background: none; /* remove padding so it aligns neatly */
+  }
+  #uiFcProgressBar h3 {
+    line-height: 21px;
+    color: #ddd;
+    padding: 0;
+    font-weight: normal;
+  }
+  #uiFcProgressBar em {
+    color: #fff;
+  }
+
+  /* target additional fonts for Android */
+  .cj-k {
+    font-family: "Hiragino Mincho Pro", "ヒラギノ明朝 Pro W3", "ＭＳ 明朝",
+      "ＭＳ Ｐ明朝", "Droid Sans Japanese", "Droid Serif", serif;
+  }
+
+  #JsBtnHelp {
+    display: none;
+  } /* hide the keyboard shortcuts help */
+
+  /* error messages */
+  #uiFcAjaxLoading {
+    height: 32px;
+    position: absolute;
+    right: 22px;
+    top: 3px;
+    z-index: 1000;
+  }
+  #uiFcAjaxLoading span {
+    /* hide "loading" label */
+    display: none;
+  }
+
+  #uiFcAjaxError {
+    height: 32px;
+    position: absolute;
+    right: 22px;
+    top: 3px;
+    z-index: 1000;
+  }
+
+  /* secondary stats boxes (bottom) */
+  .uiFcStats {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  #uiFcStDeld {
+    margin: 1em 0 0;
+  }
+
+  .uiFcStBoxClear {
+    width: 100%;
+    clear: both;
+    padding: 0 0 9px;
+  }
+
+  /* javascript based dialogs */
+  #editflashcarddlg {
+    width: auto;
+  }
+  .uiBMenuBody {
+    box-shadow: none;
+  }
+  #editflashcarddlg .uiBMenuItem {
+    width: auto;
+  }
+
+  /* EditKeywordDialog */
+  #edit-keyword {
+    width: auto;
+  }
+  #edit-keyword .txt-ckw {
+    width: auto;
+    background: none;
+    border: none;
+    padding: 0;
+  }
+}
+
+/* ================================================================================= */
+/* KoohiiFlashcard    (this component)  (common styles vs child view styles) */
+/* ================================================================================= */
+
+.uiFcCard {
+  display: block;
+  position: relative;
+  margin: 0 auto; /* center within TD */
+  background: #fff;
+
+  /* card size */
+
+  width: 100%;
+  height: 366px;
+  box-shadow: 0px 1px 5px 0px rgba(0, 0, 0, 0.2); /* works in Firefox 25 */
+}

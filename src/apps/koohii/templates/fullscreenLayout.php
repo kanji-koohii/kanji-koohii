@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-<?php include_http_metas() ?>
+<?php include_http_metas(); ?>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-<?php include_metas() ?>
-<?php include_title() ?>
-<?php 
+<?php include_metas(); ?>
+<?php include_title(); ?>
+<?php
   // temporary (fix dirty js inclusions from labs mode later)
   $pageId = $sf_request->getParameter('module').'-'.$sf_request->getParameter('action');
+  $isLandingPage = $sf_request->getParameter('isLandingPage');
 
-  $build = KK_ENV_DEV ? '.raw' : '.min';
+  $sf_response->addViteEntries();
 
-  // include Webpack bundles extracted css
-  $sf_response->addStylesheet(implode([KK_WEBPACK_ROOT,'review-bundle',$build,'.css']));
+  include_stylesheets();
+  include_javascripts();
 ?>
-<?php include_stylesheets() ?>
   <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
 
   <!-- thx realfavicongenerator.net -->
@@ -31,38 +31,24 @@
   <meta name="msapplication-config" content="/favicons/browserconfig.xml?v=20170121">
   <meta name="theme-color" content="#f0ddd4"></head>
 
-
   <style type="text/css">
-/* cancel the (absent) fixed nav padding */
+/* FIXME! put this in a stylesheet, add a class to the body? */
 body { padding-top:0;  }
-
-<?php if(has_slot('inline_styles')): ?>
-<?php include_slot('inline_styles') ?>
-<?php endif ?>
   </style>
+
+<?php if (has_slot('inline_styles')) { ?>
+  <style type="text/css">
+<?php include_slot('inline_styles'); ?>
+  </style>
+<?php } ?>
+
 </head>
 <body class="uiFcLayout yui-skin-sam">
 
-<!--[if lt IE 9]><div id="ie"><![endif]-->
+<?php echo $sf_content; ?>
 
-<?php echo $sf_content ?>
+<?php kk_globals_out() ?>
+<?php koohii_onload_slots_out() ?>
 
-<!--[if lt IE 9]></div><![endif]-->
-
-<?php
-  echo '<script>'.koohii_base_url()."</script>\n";
-
-  // all 'first' so the bundles in view.yml files come last
-  $sf_response->addJavascript(implode([KK_WEBPACK_ROOT,'vendors-bundle',$build,'.js']), 'first');  
-  $sf_response->addJavascript(implode([KK_WEBPACK_ROOT,'review-bundle',$build,'.js']), 'first');
-  $sf_response->addJavascript('/revtk/legacy-bundle.juicy.js', 'first');
-
-  include_javascripts();
-
-  echo
-    "<script>\n" .
-    get_slot('inline_javascript') .
-    "</script>\n";
-?>
 </body>
 </html>

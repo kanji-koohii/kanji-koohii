@@ -3,39 +3,25 @@
   $sf_request->setParameter('_homeFooter', true);
 ?>
 
-    <h2>Forgot your password?</h2>
+<h2>Forgot your password?</h2>
 
-    <p>  Enter your email address below and you will receive new password instructions.</p>
-    
-    <p style="color:#822"><strong>If you do not receive an email please check the SPAM folder!</strong></p>
+<p>Enter your email address below and you will receive new password instructions.</p>
 
-<div class="padded-box rounded mb-3">
+<p class="text-[#822] font-bold">If you do not receive an email please check the SPAM folder!</p>
 
-    <?php echo form_errors() ?>
-   
-    <?php echo form_tag('@forgot_password', ['class'=>'']) ?>
+<div class="padded-box rounded mb-3 max-w-[380px]">
+  <?php
+    echo form_errors();
 
-      <div class="form-group">
-        <label for="email_address" class="">Email address</label>
-        <input type="text" name="email_address" class="form-control" id="email_address" placeholder="Email" style="">
-      </div>
+    echo form_tag('@forgot_password', ['class' => '']);
 
-      <div class="form-group">
-        <?php echo submit_tag('Send password instructions', ['class' => 'btn btn-success']) ?>
-      </div>
-
-    </form>
-
-</div><!-- /panel -->
-
-
-<?php koohii_onload_slot() ?>
-App.ready(function() {
-  var elFocus = YAHOO.util.Dom.get('email_address');
-  if (elFocus)
-  {
-    elFocus.focus();
-  }
-});
-<?php end_slot() ?>
-
+    echo _bs_form_group(
+      ['validate' => 'email'],
+      _bs_input_email('email_address', ['label' => 'Email address', 'placeholder' => 'Email', 'class' => 'JsFocusOnLoadInput'])
+    );
+    echo _bs_form_group(
+      _bs_submit_tag('Send password instructions', ['class' => ''])
+    );
+  ?>
+  </form>
+</div>

@@ -15,7 +15,5 @@
 </div>
 
 <?php koohii_onload_slot() ?>
-App.ready(function() {
-  var ajaxTable = new Core.Widgets.AjaxTable('MembersListComponent');
-});
+  var ajaxTable = new Koohii.UX.AjaxTable('MembersListComponent');
 <?php end_slot() ?>

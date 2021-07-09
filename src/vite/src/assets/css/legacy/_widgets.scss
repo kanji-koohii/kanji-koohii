@@ -1,0 +1,247 @@
+/**
+ * LEGACY "Widgets"
+ * 
+ *   This should be Vue comps, if we refactor related pages, otherwise
+ *   they are "templated" via php.
+ *
+ * @see     /lib/helper/WidgetsHelper
+ * @see     /apps/revtk/lib/helper/GadgetsHelper
+ */
+
+@import "@css/legacy/_filterstd.css";
+@import "@css/legacy/_pager.css";
+
+/**
+ * uiIBtn - Inline Block Buttons
+ * 
+ * Example:
+ * 
+ *  <code>
+ *    <a href="#" class="uiIBtn uiIBtnDefault"><span><em>Button text</em></span></a>
+ *  </code>
+ *  
+ * Example adding an icon on the EM element:
+ * 
+ *  <code>
+ *   <a href="#" class="uiIBtn uiIBtnDefault"><span><em class="ico ico-cross">Delete</em></span></a>
+ *  </code>
+ *  
+ */
+
+.uiIBtn {
+  display:-moz-inline-box; display:inline-block; padding:0 10px; 
+  /* no outline */ outline:none; -moz-user-select: none; -webkit-user-select: none;
+}
+
+.uiIBtn span { white-space:nowrap; }
+.uiIBtn, .uiIBtn:hover, .uiIBtn:hover span { text-decoration:none; }
+
+/* em is used for adding an icon (optional) */
+.uiIBtn em { font-style:normal; }
+
+/* uiIBtn :: default green */
+.uiIBtnDefault {
+  border-radius:5px;
+  /* default colour */
+  background:#6fa300;
+  background: linear-gradient(to bottom,  #6fa300 0%,#649300 100%);
+
+  color:#fff; font:bold 15px/34px Arial, sans-serif; height:34px; text-shadow:0 -1px rgba(0,0,0,0.5);
+}
+.uiIBtnDefault:hover { box-shadow:0 1px 2px 1px rgba(0, 0, 0, 0.2); }
+
+/* uiIBtn :: additional colours */
+.uiIBtnRed { background:#cb4b16;
+  background: linear-gradient(to bottom,  #cb4b16 0%,#b74314 100%);
+}
+.uiIBtnGreen { background:#6fa300;
+  background: linear-gradient(to bottom,  #6fa300 0%,#649300 100%);
+}
+.uiIBtnOrange { background:#e68f06;
+  background: linear-gradient(to bottom,  #e68f06 0%,#bb7404 100%);
+}
+
+
+
+/* uiIBtn :: default disabled (30px) */
+.uiIBtnDisabled {}
+
+/* larger buttons for dialogs (for touch devices) */
+.uiBMenuItem .uiIBtn { display:block; width:auto; text-align:center; }
+.uiBMenuItem .uiIBtn span { display:block; width:auto; }
+.uiBMenuItem .uiIBtnDefault { font-size:16px; line-height:41px; height:42px; } /* larger buttons for touch/mobile */
+
+/**
+ * uiTabs - base styles to use with ui_tabs() helper.
+ * 
+ * Simple tabs with enough markup to style image corners, and a hover state
+ * also in IE6 (a:hover span {...}).
+ *
+ */
+.uiTabs {}
+.uiTabs ul {
+  float:left; width:100%;
+  margin:0; padding:0 0;
+  font-size:12px; line-height:1em;
+}
+.uiTabs li {
+  float:left; display:inline; margin:0 7px 0 0;
+  border:1px solid #ccc; border-bottom:none;
+}
+.uiTabs li a {
+  float:left; padding:0 0 0 12px; background:#ccc;
+  color:#444; font:bold 14px/1.1em Arial, sans-serif; text-decoration:none;
+  outline: none;
+}
+.uiTabs li span {
+  float:left; padding:7px 12px 6px 0;
+}
+.uiTabs a:hover,
+.uiTabs a:hover span { background:#fff; color:#000; text-decoration:underline; }
+.uiTabs .active a { background:#fff; color:#000; }
+
+
+/**
+ * uiTabbedView - base styles.
+ * 
+ */
+.uiTabbedBody { border:1px solid #ccc; padding:10px; border-top:none; background:#fff; }
+
+
+/**
+ * uiChartVs
+ * 
+ * Set the class to a container without padding (create a nested div if needed).
+ * 
+ */
+.uiChartVs { width:100%; height:85px; overflow:visible; position:relative; }
+.uiChartVs .shadow { position:absolute; width:100%; left:5px; bottom:0; height:56px; background:#C1BEA3; }
+.uiChartVs p { width:50%; margin:0; padding:0; }
+.uiChartVs p .ttl  { display:block; font:bold italic 14px/1em Georgia, serif; color:#4B4B4B; }
+.uiChartVs p .zero { color:#979797; } /* gray out title */
+.uiChartVs em { font-weight:normal; font-style:normal; }
+.uiChartVs p.left { float:left; }
+.uiChartVs p.right{ float:right; text-align:right; }
+.uiChartVs .pct { position:absolute; bottom:5px; height:50px; border-bottom:8px solid #fff;
+  -moz-box-shadow:0 2px 5px rgba(0,0,0,0.3);
+  -webkit-box-shadow:0 2px 5px rgba(0,0,0,0.3);
+}
+.uiChartVs a.pct { text-decoration:none; }
+.uiChartVs .left  .pct { left:0; background:#b1fe66; border-bottom-color:#82ba4b; }
+.uiChartVs .right .pct { right:0; background:#dd5d3a; border-bottom-color:#a2442b; }
+.uiChartVs .pct span {
+  position:absolute; top:10px; font:27px/1em Georgia, serif; color:#000; 
+  text-shadow:0 1px rgba(255,255,255,0.4);
+}
+.uiChartVs .left  .pct span { left:10px; }
+.uiChartVs .right .pct span { right:10px; }
+.uiChartVs .pct span em { font-size:17px; }
+
+
+
+
+/**
+ * uiTable
+ */
+/* =provide "widgets" */
+
+.uiTable {
+  // crude solution for horizontal scrolling on small screens
+  overflow-y: auto; _overflow: auto; margin: 0 0 1em; border-right:1px dotted #bdbcaa;
+}
+
+.uiTabular { border:1px solid #BDBCAA; border-top:1px solid #D9D8CE; width:100%; }
+/* thead */
+.uiTabular th { padding:0; font:13px Arial, sans-serif; color:#5C5B52; border-bottom:1px solid #A1A1A1; text-align:left;
+  background:#D9D6B7 url(/assets/legacy/widgets-selecttable.gif) repeat-x 0 0; }
+.uiTabular th a,
+.uiTabular th span.hd { display:block; float:left; padding:6px 10px; text-align:left; text-decoration:none; } /* non-sortable */
+.uiTabular th a { color:#005CB1; }
+.uiTabular th a:hover { text-decoration:underline; color:#005CB1; padding-right:12px; background-color:#fff; }
+.uiTabular th a.active { color:#000; }
+ /* sort icon */
+.uiTabular th a.sort { padding-right:12px; }
+.uiTabular th a.sort:hover { background:url(/assets/legacy/widgets-selecttable.gif) no-repeat 100% 50%;   }
+.uiTabular th a.sortasc { padding-right:12px; background:url(/assets/legacy/widgets-selecttable.gif) no-repeat 100% -37px; }
+.uiTabular th a.sortdesc { padding-right:12px; background:url(/assets/legacy/widgets-selecttable.gif) no-repeat 100% -72px; }
+/* tbody */
+.uiTabular td {
+  padding:8px 10px;
+  color:#666;
+  font-size:13px;
+  line-height:1.1em;
+  border-bottom:1px solid #E8E5CA;
+}
+.uiTabular tbody td {
+  background-color:$--clr-tbl-bg;
+  color:#5C5B52;
+}
+.uiTabular tr.odd td { background-color:#fff; }
+/* uiTable hover */
+.uiTabular tbody tr.hover { background-color:#fff; }
+
+.uiTabular tbody var { color:#000; font-size:13px; }
+/* errors */
+.uiTabular tbody td.error { background-color:#FBCFCF; }
+
+
+/* CELL STYLES */
+table.uiTabular td.editlink { text-align:center; }
+table.uiTabular td.editlinnkk a { color:#21C635; }
+table.uiTabular td.red { color:#C82222; } /* failed reviews */
+table.uiTabular td.compound { color:#000; padding-top:0; padding-bottom:0; }
+table.uiTabular td.kanji   { text-align:center; font-size:24px; line-height:1em; color:#000; padding-top:4px; padding-bottom:4px; }
+table.uiTabular td.keyword { text-align:left; font:15px/1em Georgia, serif; white-space:nowrap; }
+
+
+@media (max-width:767px) {
+  /* hug edges on phones (xs) */
+  .uiTable   { border:none; }
+  .uiTabular { border-left:none; border-right:none; }
+}
+
+
+/**
+ * uiProgressBar
+ * 
+ * Reference markup:
+ * 
+ *  <code>
+ *   <div class="uiProgressBar">
+ *    <div>
+ *      <span class="g" title="30 of 50" style="width:60%">30 of 50</span>
+ *      <span class="r" title="5 of 50" style="width:10%">5 of 50</span>
+ *    </div>
+ *   </div>
+ *  </code>
+ *
+ * @see   dev/index (internal uri)
+ * @see   GadgetsHelper
+ */
+.uiProgressBar { margin:0 1px; padding:1px 0; background:#A1A1A1; }
+.uiProgressBar div { position:relative; height:19px; margin:0 -1px; border-left:1px solid #A1A1A1; border-right:1px solid #A1A1A1; }
+.uiProgressBar span { position:absolute; left:0; top:0; text-indent:-5000px; font-size:1px; line-height:1px; display:block; width:100%; height:100%; }
+.uiProgressBar div, .uiProgressBar span { background:#5A5A5A url(/assets/legacy/gadgets-progressbar.gif) repeat-x 0 0; }
+.uiProgressBar span.g /*green*/ { background-color:#72A311; background-position:0 -32px; }
+.uiProgressBar span.r /*red*/   { background-color:#A32011; background-position:0 -64px; }
+
+
+/**
+ * Side tabs navigation.
+ */
+.side-menu { border:1px solid $--clr-bg-1s; border-radius:3px; margin-bottom:15px; }
+.side-menu h2 {
+  padding: 8px 10px;
+  margin: 0;
+  font-size: 13px;
+  font-weight: bold;
+  color: #555;
+  background-color: $--clr-bg-1;
+  border-bottom: 1px solid $--clr-bg-1m;
+}.side-menu ul { margin:0; list-style:none; padding:0; }
+.side-menu li { margin:0; border-bottom:1px solid $--clr-bg-1m; }
+.side-menu li:last-child { border-bottom:none; }
+.side-menu li a { display:block; padding:8px 10px; text-decoration:none; }
+.side-menu li a:hover { background-color:$--clr-bg-1; }
+.side-menu li.active { }
+.side-menu li.active a { border-left:3px solid #8C8; color:#222; font-weight:bold; }

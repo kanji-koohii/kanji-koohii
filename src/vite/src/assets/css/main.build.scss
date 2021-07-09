@@ -1,0 +1,1708 @@
+// LEGACY main.build.scss stylesheet
+// --------------------------------------------------------------------
+// 1. tailwind's "preflight" and opiniated resets
+// --------------------------------------------------------------------
+@import "tailwindcss/base";
+
+@import "./legacy/vendor/bootstrap.css";
+
+// --------------------------------------------------------------------
+// FIXES
+//
+//   Undo Bootstrap styles setting html font-size to 10px.
+//   Legacy stylesheets almost never used rems so this shouldn't break anything.
+// --------------------------------------------------------------------
+html {
+  font-size: 16px; // make sure 1rem = 16px
+}
+
+// fix. headings, until we remove Bootstrap
+h2 {
+  font-size: 30px;
+}
+h3 {
+  // font-size: 18px;
+  color: purple;
+}
+
+@import "./_theme.scss";
+
+@import "./_utilities.scss";
+
+/* ---------------------------- */
+/* RESPONSIVE utilities */
+/* ---------------------------- */
+
+@media (max-width: 767px) {
+  /* cancel the column gutter from Bootstrap grid, removes margins like .row does
+     but this class is more semantic, as we use it to remove gutter for edge to edge
+     content on small screens (needs to match Bootstrap gutter dimensions) */
+  .no-gutter-xs {
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+}
+
+@media (min-width: 992px) {
+  .visible-xs-sm {
+    display: none;
+  } /* visible-xs, visible-sm (ideally "phone & tablet portrait) */
+}
+
+@media (max-width: 991px) {
+  .no-gutter-xs-sm {
+    margin-left: -15px;
+    margin-right: -15px;
+  }
+
+  /* re-apply margins for content set inside a .no-gutter-xs-sm container */
+  .re-gutter-xs-sm {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
+
+  .visible-md-lg {
+    display: none;
+  } /* visible-md, visible-lg (ideally "tablet landscape & desktop) */
+}
+
+/* ajax table container div (cf. ./legacy/_widgets.scss) */
+.uiTable {
+  overflow-y: auto;
+  _overflow: auto;
+  margin: 0 0 1em;
+  border-right: 1px dotted #bdbcaa;
+}
+
+/* ---------------------------- */
+/* BOOTSTRAP hacks */
+/* ---------------------------- */
+
+@media (min-width: 1200px) {
+  .container {
+    width: 970px;
+  } /* same as min-width 992px */
+}
+
+/* cf. BootstrapHelper */
+
+/* we don't use Boostrap's structure here, see BootstrapHelper.php :: _bs_input_checkbox() */
+/*.form-group label { font-weight: normal; }*/
+.form-group input[type="checkbox"] {
+  vertical-align: middle;
+  margin: 0;
+  padding: 0;
+}
+.form-group input[type="checkbox"] + span {
+  vertical-align: middle;
+  padding-left: 0.5em;
+  font-weight: normal;
+}
+
+/* make this similar to the input */
+.form-control-static {
+  border: 1px solid $--clr-bg-1s;
+  border-radius: 4px;
+  display: block;
+  font-size: 14px;
+  height: 34px;
+  line-height: 1.42857;
+  padding: 6px 12px;
+  width: 100%;
+}
+
+/* we use .form-group > .form-control.form-control-i for inline-block regardless of @media */
+.form-control-i {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* style an '(Optional)' <span> next to label of optional inputs */
+.form-optional {
+  color: #716c5c;
+  margin-left: 0.5em;
+}
+
+/* form errors are added by BootstrapHelper methods, after the input */
+.has-error-msg {
+  /*background:#ffc4bc;*/
+  color: #913535;
+  padding: 4px 0 0 6px;
+}
+/*.form-group.has-error .form-control { background:#ffd; }*/
+
+/* ---------------------------- */
+/* BOOTSTRAP theme (TODO : incorporer dans le build sass truc) */
+/* ---------------------------- */
+
+body {
+  background: $--clr-bg-body;
+  color: #42413d;
+}
+
+/* when footer gradient is used */
+body.with-footer {
+  background: #f0ddd4;
+}
+body.with-footer #main {
+  background: $--clr-bg-body;
+}
+
+/* typography */
+blockquote {
+  font-size: inherit;
+  border-left: none;
+  color: #7f7d75;
+}
+
+/* buttons */
+.btn {
+  text-decoration: none;
+}
+
+.btn-link {
+  text-decoration: underline;
+}
+
+/* default non-colored, subdued */
+.btn-ghost {
+  color: #6f6961;
+  background-color: inherit;
+  border-color: $--clr-bg-1s;
+}
+.btn-ghost-danger {
+  background-color: transparent;
+  border-color: currentColor;
+  color: $--clr-danger-text;
+}
+
+.btn-default {
+  background-color: $--clr-bg-1;
+  color: #444;
+  border-color: $--clr-bg-1s;
+}
+
+/* cf. BootstrapHelper :: _bs_button_with_icon()  .fa .far .fas */
+.btn i {
+  margin-right: 0.5em; /*vertical-align:middle;*/
+}
+
+/* push buttons (note :hover & :active same style due to touch :active -> :hover */
+.btn-go {
+  color: #fff;
+  background-color: #5cb85c;
+  border: none;
+  border-bottom: 3px solid #318a31;
+}
+.btn-go:active,
+.btn-go:hover {
+  color: #fff;
+  border-bottom-width: 1px;
+  margin-top: 2px;
+}
+.btn-lg.btn-go {
+  padding: 12px 16px 10px;
+}
+
+/**
+ * Flex layout (minimal) (refactor later maybe with BS4)
+ *
+ *  .flex          ... the container (.row)
+ *  .flex-i        ... one item (for setting gutters)
+ *
+ *  .col-m (mobile)   => combines Bootstrap xs / sm 
+ *  .col-d (desktop)  => combines Bootstrap md / lg ( >= 992px )
+ *
+ * The rest is like BS4 alpha flex:
+ *
+ *  .col-m/d       ... alone for equal spacing 
+ *  .col-m/d-<n>   ... set a width, can combine with col-m/d to fill the rest
+ *
+ * Examples
+ *
+ *   Input followed by a small button, let the input box fill the space
+ *   | .col-m | .col-m2 |
+ *   
+ *   ... And on desktop, input fills 100%, wrap the following content
+ *   | .col-m .col-d-12 | ...
+ *  
+ */
+
+/* refactor later with BS4 .row ? */
+.flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+/* item alignment */
+.flex-a-c {
+  align-self: center;
+}
+
+/* small gutter */
+.flex-g-s {
+  margin-left: -5px;
+  margin-right: -5px;
+}
+.flex-g-s .col-g {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+/* equal width columns */
+.col-m {
+  flex: 1 0 0;
+}
+/*.col-m-1 { flex:0 0 8.3333333%; }*/
+
+.col-m-2 {
+  flex: 0 0 16.666667%;
+}
+.col-m-3 {
+  flex: 0 0 25%;
+}
+.col-m-4 {
+  flex: 0 0 33.333333%;
+}
+.col-m-5 {
+  flex: 0 0 41.666667%;
+}
+.col-m-6 {
+  flex: 0 0 50%;
+}
+.col-m-7 {
+  flex: 0 0 58.333333%;
+}
+.col-m-8 {
+  flex: 0 0 66.666667%;
+}
+.col-m-9 {
+  flex: 0 0 75%;
+}
+.col-m-10 {
+  flex: 0 0 83.333333%;
+}
+.col-m-11 {
+  flex: 0 0 91.666667%;
+}
+.col-m-12 {
+  flex: 0 0 100%;
+}
+
+/* bootstrap-md-lg */
+@media (min-width: 992px) {
+  .col-d-2 {
+    flex: 0 0 16.666667%;
+  }
+  .col-d-3 {
+    flex: 0 0 25%;
+  }
+  .col-d-4 {
+    flex: 0 0 33.333333%;
+  }
+  .col-d-5 {
+    flex: 0 0 41.666667%;
+  }
+  .col-d-6 {
+    flex: 0 0 50%;
+  }
+  .col-d-7 {
+    flex: 0 0 58.333333%;
+  }
+  .col-d-8 {
+    flex: 0 0 66.666667%;
+  }
+  .col-d-9 {
+    flex: 0 0 75%;
+  }
+  .col-d-10 {
+    flex: 0 0 83.333333%;
+  }
+  .col-d-11 {
+    flex: 0 0 91.666667%;
+  }
+  .col-d-12 {
+    flex: 0 0 100%;
+  }
+}
+
+/* ---------------------------- */
+/* Original Koohii common styles ... TODO cleanup ) */
+/* ---------------------------- */
+
+/* fonts 
+ When setting the primary font stack, apply it to the Pure grid units along
+ with `html`, `button`, `input`, `select`, and `textarea`. Pure Grids use
+ specific font stacks to ensure the greatest OS/browser compatibility.
+*/
+html,
+button,
+input,
+select,
+textarea,
+.pure-g [class*="pure-u"] {
+  /* Set your content font stack here: */
+  font-family: Helvetica, Arial, freesans, clean, sans-serif;
+}
+
+/* links */
+a {
+  color: #005cb1;
+  font-weight: normal;
+  text-decoration: underline;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* images */
+a img {
+  border: none;
+}
+p img {
+  display: inline;
+  vertical-align: middle;
+}
+
+/* type */
+p,
+ul {
+  margin: 0 0 1.5em;
+}
+abbr,
+acronym {
+  border-bottom: 1px dotted #dad8bd;
+  cursor: help;
+}
+
+p.intro {
+  margin-top: 0;
+}
+p.small {
+  line-height: 1.2em;
+  color: #666;
+}
+
+/* headings */
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin: 0 0 1em;
+  color: #7f7d85;
+}
+
+/*h3 { color:#fa3d60; }*/
+
+h1 {
+  font-size: 13px;
+  font-family: Verdana, sans-serif;
+}
+h2 {
+  font-weight: normal;
+  margin: 0 0 0.5em;
+}
+h3 {
+  font-size: 18px;
+  font-weight: normal;
+  margin: 0 0 0.5em;
+}
+
+/* css3 fixes */
+.border-box {
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* SRS color coding used for text */
+.clr-srs-due {
+  color: $--clr-srs-due;
+}
+.clr-srs-undue {
+  color: $--clr-srs-undue;
+}
+.clr-srs-fail {
+  color: #f1311a;
+}
+.clr-srs-new {
+  color: #1c90d4;
+}
+
+/* misc. effects */
+kbd {
+  border-radius: 3px;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  box-shadow: 0 1px 0px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 1px 0px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 1px 0px rgba(0, 0, 0, 0.3);
+  background: #ddd;
+  color: #333;
+  font: 100%/1em "Andale Mono", "Consolas", monospace;
+  margin: 2px 1px 2px 0;
+  min-width: 1em;
+  padding: 2px 5px;
+  text-align: center;
+  text-shadow: none;
+  white-space: nowrap;
+}
+
+/* gradients */
+.gdt-ocean-blue {
+  background: #deeef8; /* Old browsers */
+  background: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0%, #deeef8),
+    color-stop(100%, #c4e7ff)
+  ); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(
+    top,
+    #deeef8 0%,
+    #c4e7ff 100%
+  ); /* Chrome10+,Safari5.1+ */
+  background: linear-gradient(to bottom, #deeef8 0%, #c4e7ff 100%); /* W3C */
+}
+
+/* ---------------------------- */
+/* common */
+/* ---------------------------- */
+
+a.action {
+  text-decoration: none;
+}
+a.action:hover {
+  text-decoration: underline;
+}
+
+a.admin-edit {
+  font-size: 80%;
+  letter-spacing: normal;
+  color: #408040;
+  text-decoration: none;
+  font-weight: normal;
+  padding-right: 0.5em;
+}
+
+/* development only */
+.dbg code {
+  font-weight: normal;
+  color: #000;
+}
+
+/* ---------------- */
+/* Container styles */
+/* ---------------- */
+
+/* subtle shadow */
+.css3-ssh {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+/* content boxes */
+.padded-box {
+  @apply px-4 py-4;
+  background-color: $--clr-bg-1;
+}
+
+/* ---------------------------- */
+/* UI */
+/* ---------------------------- */
+
+@import "./legacy/_widgets.scss";
+@import "./_navbar.scss";
+
+/* disable selection for GUI items */
+.uiGUI {
+  outline: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+}
+
+/*.action_top-right { position:absolute; right:0; top:0; }*/
+
+/**
+ * ui_select_pager() helper
+ *
+ * Float the "rows per page" FilterStd widget to the left, and the pager to the right.
+ */
+div.uiPagerDiv {
+  margin: 0 0 5px;
+}
+div.uiPagerDiv div.uiFilterStd {
+  float: left;
+}
+div.uiPagerDiv ul.uiPager {
+  float: right;
+}
+/* smaller */
+div.uiPagerDiv div.uiFilterStd .lbl {
+  font: 11px/1.1em Arial, sans-serif;
+}
+div.uiPagerDiv div.uiFilterStd a {
+  padding: 4px 5px 4px;
+}
+
+/* tables, base rules */
+table.layout {
+  width: 100%;
+  border: none;
+  margin: 0 0 1em;
+}
+table.layout td {
+  vertical-align: top;
+  padding: 0;
+}
+
+table.shaded td {
+  padding: 5px 10px;
+  background: #f2efd7;
+}
+
+/* ---------------------------- */
+/* Forms */
+/* ---------------------------- */
+
+.form-legend {
+  font-size: 90%;
+}
+
+.panel-body .form-section {
+  padding: 1em 15px;
+  margin: 0 -15px 1em;
+  border-top: 1px solid #dad9c6;
+  border-bottom: 1px solid #dad9c6;
+}
+
+/* OLD CSS */
+
+form .valign input,
+form .valign span {
+  vertical-align: middle;
+}
+/*form .valign input.checkbox { margin-right:4px; } */
+
+/*form.block { background:$--clr-bg-1m; margin:0 0 2em; }*/
+
+/* OBSOLETE
+form.block fieldset { border:0; padding:0; margin:0; width:100%; }
+form.block label { }
+form.block ul { padding:14px 18px; margin:0; }
+form.block li { margin:0 0 4px; padding:0; width:100%; background:none; list-style:none; }
+form.block li .lbl { float:left; width:135px; padding-right:10px; }
+form.block li .fld { display:block; margin-left:145px; }
+form.block li .fld .legend { padding-left:4px; color:#666666; font-size:10px; line-height:20px; }
+form.block li .fld .no-edit { color:#666; font-weight:bold; padding:3px 5px; }
+form.block li .btn { display:block; margin-left:145px; padding-top:1em; }
+form.block span.req, .required-legend { padding-left:6px; font-weight:bold; color:red; }
+.required-legend { padding:0; padding-right:6px; }
+form.block .short input.textfield { width:105px; }
+form.block .medium input.textfield { width:135px; }
+form.block .medium select { width:145px; }
+form.block .long input.textfield { width:194px; }
+form.block input.checkbox { vertical-align:middle; margin-right:4px; }
+
+form.block li.section { padding-top:8px; }
+form.block li.ft p    { padding:8px 0 0 145px; color:#665; font-size:11px; }
+*/
+
+/* ---------------------------- */
+/* Gadgets */
+/* ---------------------------- */
+
+/* Sortable link lists */
+div.sortable a {
+  padding: 2px 4px;
+}
+div.sortable a.sortup,
+div.sortable a.sortdown {
+  padding-left: 14px;
+  background-repeat: no-repeat;
+  background-position: 0 60%;
+  text-decoration: none;
+  font-weight: bold;
+}
+div.sortable a.sortup:hover,
+div.sortable a.sortdown:hover {
+  text-decoration: underline;
+}
+div.sortable a.sortup,
+div.sortable a.sortup:hover {
+  background-image: url(/images/1.0/sorttable_down.gif);
+}
+div.sortable a.sortdown,
+div.sortable a.sortdown:hover {
+  background-image: url(/images/1.0/sorttable_up.gif);
+}
+
+/* Sortable tables */
+table.sortable {
+  margin: 0.5em 0 1em 0;
+  border: 1px solid #e8e5ca;
+  border-top: none;
+}
+table.sortable th {
+  border-bottom: 1px solid #afafaf;
+  background-color: #e8e5c9;
+  text-align: center;
+  white-space: nowrap;
+}
+table.sortable td {
+  border-top: 1px solid #e8e5ca;
+  padding: 2px 4px;
+  background-color: #f2efd7;
+  text-align: center;
+}
+table.sortable td a {
+  text-decoration: none;
+}
+table.sortable td a:hover {
+  text-decoration: underline;
+}
+/* th */
+table.sortable th a {
+  color: #444;
+  font-weight: bold;
+  text-decoration: none;
+  display: block;
+  height: 26px;
+  padding: 2px 10px;
+}
+table.sortable th a.sortup,
+.sortable th a.sortup:hover {
+  background: #d9e9f3 url(/images/1.0/sorttable_up.gif) no-repeat 50% 22px;
+}
+table.sortable th a.sortdown,
+.sortable th a.sortdown:hover {
+  background: #d9e9f3 url(/images/1.0/sorttable_down.gif) no-repeat 50% 22px;
+}
+table.sortable th a:hover {
+  background: url(/images/1.0/sorttable_down.gif) no-repeat 50% 22px;
+  text-decoration: none;
+}
+/* re-used styles */
+table.sortable tr.hover td {
+  background: #fcfaeb;
+  color: #000;
+}
+table.sortable td.k {
+  font: 20px "Ms Gothic", sans-serif;
+  color: #000;
+}
+table.sortable td.f,
+.sortable tr.hover td.f {
+  color: #c82222;
+  font-weight: bold;
+}
+
+/* 'blocky' tables */
+table.blocky {
+  width: 100%;
+  margin: 0.5em 0 1em 0;
+  border-left: 1px solid $--clr-bg-1m;
+  border-collapse: collapse;
+}
+table.blocky th {
+  background-color: $--clr-bg-1;
+  border-top-width: 0;
+  color: #4f4e45;
+}
+table.blocky th,
+table.blocky td {
+  border-top: 1px solid #e8e5ca;
+  border-right: 1px solid #e8e5ca;
+  padding: 5px 10px;
+  text-align: left;
+}
+table.blocky td {
+  background: $--clr-bg-nav;
+}
+table.blocky td a:link,
+table.blocky td a:visited,
+table.blocky td a:active {
+  font-weight: normal;
+}
+table.blocky th a {
+  font-weight: bold;
+}
+
+/* bulleted links */
+a.link-pdf {
+  padding: 2px 0 2px 22px;
+  background: url(/images/1.0/ico/link_pdf.png) no-repeat 0 50%;
+}
+
+/* ---------------------------- */
+/* LAYOUT */
+/* ---------------------------- */
+
+.clear {
+  clear: both;
+  overflow: hidden;
+  height: 0;
+}
+
+/* spacing */
+div.block {
+  margin-bottom: 10px;
+}
+section,
+div.section {
+  margin-bottom: 20px;
+}
+
+/* box styles */
+div.col-box {
+  position: relative;
+}
+div.col-box-bis {
+  margin-top: 10px;
+}
+
+.box-side {
+  border-radius: 3px;
+  background-color: $--clr-bg-1;
+  padding: 15px 10px;
+}
+
+/* custom class added to symfony cached content (see sfViewCacheManager.class.php) */
+.kkSymfonyCache {
+  border: 1px solid #f00;
+}
+
+/* ---------------------------- */
+/* Pure Grid                    */
+/* ---------------------------- */
+.pad-u {
+  padding: 0 10px;
+}
+
+/* mettre sur pure-g element pour enlever les marges extra à gauche et à droite */
+.grid-g {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+/* active gutter (si nécessaire), à mettre sur les pure-u-* elements */
+.grid-u {
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+/* ---------------------------- */
+/* Main Layout                  */
+/* ---------------------------- */
+#main_container {
+  padding-top: 20px;
+}
+
+/* ---------------------------- */
+/* Site wide elements           */
+/* ---------------------------- */
+
+/* Study and SRS */
+.btn-srs strong {
+  color: #fff;
+  font-size: 120%;
+}
+.btn-srs.btn-failed {
+  color: #601008;
+  background-color: #f86464;
+  border-bottom: 3px solid rgb(210, 99, 63);
+}
+.btn-srs.btn-due {
+  color: #502a00;
+  background-color: #f7a247;
+  border-bottom: 3px solid rgb(210, 99, 63);
+}
+.btn-srs.btn-new {
+  color: #0c2b5a;
+  background-color: #79b8e9;
+  border-bottom: 3px solid rgb(61, 131, 172);
+}
+
+.btn-srs:active {
+  border-bottom: 0;
+  margin-top: 3px;
+}
+
+/* ---------------------------- */
+/* Footer & Support (Nov 2016) */
+/* ---------------------------- */
+.k_bg_free {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f8c5e4+0,f0ddd4+100 */
+  background: #f8c5e4; /* Old browsers */
+  background: -moz-linear-gradient(
+    top,
+    #f8c5e4 0%,
+    #f0ddd4 100%
+  ); /* FF3.6-15 */
+  background: -webkit-linear-gradient(
+    top,
+    #f8c5e4 0%,
+    #f0ddd4 100%
+  ); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(
+    to bottom,
+    #f8c5e4 0%,
+    #f0ddd4 100%
+  ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f8c5e4', endColorstr='#f0ddd4',GradientType=0 ); /* IE6-9 */
+}
+
+.with-footer #main {
+  padding-bottom: 5em;
+}
+
+#footer {
+  text-align: center;
+  padding: 0 0 5em;
+  font-size: 17px;
+  color: #8b1566;
+}
+#footer p {
+  line-height: 1.2em;
+  margin: 0 0 0.8em;
+}
+#footer .transition {
+  width: 100%;
+  height: 29px;
+  background: $--clr-bg-body url(/koohii/landing/bubbles_gdt.png) repeat-x 0 0;
+}
+#footer section {
+  padding-top: 24px;
+}
+#footer a {
+  color: #e400b1;
+  text-decoration: none;
+}
+
+/* links */
+#footer ul {
+  margin: 1.5em 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 1.4em;
+}
+#footer li {
+  display: inline-block;
+  margin: 0;
+  font-weight: normal;
+}
+#footer li a {
+  padding-left: 0.8em;
+  padding-right: 0.8em; /*tap target*/
+  color: #9c3d7b;
+  text-decoration: none;
+}
+#footer a:hover {
+  color: #e400b1;
+  text-decoration: underline;
+}
+
+/* fontawesome icons */
+#footer .fa {
+  color: #9c3d7b;
+  margin-right: 0.5em;
+}
+
+@media (max-width: 600px) {
+  #footer {
+    font-size: 15px;
+  }
+  #footer p a {
+    display: inline-block;
+    padding: 0.5em 0;
+  }
+  #footer .break {
+    display: block;
+  }
+  #footer .ne {
+    display: none;
+  } /* non essential links */
+  /*#footer #ft-tweet_btn { display:block; margin:1.5em 0 0; }*/
+}
+
+/* ---------------------------- */
+/* Markdown content */
+/* ---------------------------- */
+
+$--color-blog-heading: #fa3d60;
+
+@import "./_markdown.scss";
+
+/* Site news (posts using markdown) */
+#sitenews .markdown h2,
+#sitenews .markdown h3 {
+  color: #000;
+  font-weight: normal;
+  font-size: 1.2em;
+  margin-bottom: 1em;
+}
+
+#sitenews .markdown h2:not(:first-of-type),
+#sitenews .markdown h3:not(:first-of-type) {
+  margin-top: calc(var(--vunit) * 2);
+}
+
+/* ---------------------------- */
+/* Site news (old posts using raw html) */
+/* ---------------------------- */
+
+/*.layout-news span.news-date { font-size:16px; color:#69664E; white-space:nowrap; }*/
+
+#sitenews {
+  line-height: 1.5em;
+  font-family: Arial, sans-serif;
+}
+
+#sitenews_list {
+  list-style: none;
+  margin: 0 0 20px 0;
+  padding: 0;
+}
+
+/*#sitenews .content ul { margin:1em 0 1em 2em; }*/
+
+/* titles */
+#sitenews h2 {
+  font-size: 18px;
+  margin: 0 0 1.25em;
+  padding: 0.2em 0 0.5em;
+  border-bottom: 1px solid $--color-blog-heading;
+}
+
+#sitenews h2 a {
+  color: $--color-blog-heading;
+  text-decoration: none;
+  font-weight: bold;
+}
+#sitenews .newsdate {
+  font-size: 0.9em;
+  float: right;
+  padding: 4px 5px;
+  margin-top: -4px;
+  border-radius: 3px;
+  color: #568249;
+  background: #dff7d3;
+}
+
+#sitenews .hd a {
+  font-weight: bold;
+  color: #10348f;
+  text-decoration: none;
+}
+#sitenews .hd {
+  padding: 5px 0;
+  margin-bottom: 5px;
+  border: 0;
+  font-size: 17px;
+}
+#sitenews .bd {
+  margin: 0 0 25px;
+  padding: 0 0 2em; /*border-bottom:1px solid $--clr-bg-1;*/
+  color: #3c3c3c;
+  clear: both;
+}
+
+#sitenews blockquote,
+#sitenews p.quote {
+  background: url(/images/1.0/news/blockquote_begin.gif) no-repeat 6px 4px;
+  margin: 0 0 1em;
+  padding: 0 0 0 36px;
+  font-style: italic;
+}
+#sitenews a.readmore {
+  color: #8fb052;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+#sitenews .img-break {
+  padding: 10px 0;
+  margin: 0 0 1em;
+}
+
+#sitenews_back {
+  margin: 0 0 2em;
+}
+
+/* sponsor banner */
+/*#sitenews.is-home .is-first { border-bottom:none; }*/
+#sitenews_jpod {
+  margin-top: 2em;
+}
+#sitenews_jpod img {
+  display: block;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  border: none;
+  background: #fa3d60;
+  border-radius: 5px;
+}
+
+/* monthly archives */
+#news-by-month ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+#news-by-month li {
+}
+#news-by-month a {
+  padding: 5px 10px;
+  display: block;
+  text-decoration: none;
+  border-bottom: 1px dotted $--clr-bg-1s;
+}
+#news-by-month a:hover {
+  background-color: $--clr-bg-1;
+}
+#news-by-month span {
+  color: #454545;
+}
+
+/* bootstrap xs */
+@media (max-width: 767px) {
+  #sitenews_jpod img {
+    border-radius: 0;
+  }
+  #news-by-month ul {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  #news-by-month a {
+    padding: 8px 15px;
+    font-size: 120%;
+  }
+}
+
+/* ---------------------------- */
+/* Confirmation & error boxes */
+/* ---------------------------- */
+
+.actionconfirmationmessage {
+  border: 1px solid #ccc;
+  padding: 10px;
+  background: #ffffcc;
+  margin: 1em 0;
+}
+.actionconfirmationmessage p {
+  margin-top: 0;
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+.confirmwhatwasdone {
+  padding: 10px;
+  background: #cdecae;
+  margin: 1em 0;
+  border-radius: 5px;
+  box-shadow: 0 1px 2px 0 rgba(170, 165, 130, 0.3);
+  /* -webkit-transition:background-color 0.5s; transition:background-color 0.5s;*/
+}
+.confirmwhatwasdone p {
+  margin: 0 0 10px;
+  color: #262;
+}
+
+.rounded-css3 {
+  border-radius: 5px;
+  -moz-border-radius: 5px;
+}
+
+.formerrormessage {
+  border: 1px solid #f5ab8f;
+  padding: 10px;
+  background: #ffe0a8;
+  margin: 1em 0;
+  color: #f33;
+}
+.formerrormessage p {
+  margin-top: 0;
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+.warningmessagebox {
+  border: 1px solid #f5ab8f;
+  padding: 10px;
+  background: #ffe0a8;
+  margin: 1em 0;
+}
+.warningmessagebox p {
+  margin-top: 0;
+  margin-bottom: 10px;
+  padding: 0;
+}
+
+/* debugging */
+#debugresponse {
+  border: 1px solid red;
+  padding: 10px;
+  background: #ffe0a8;
+  margin: 0;
+  width: auto;
+  font-size: 12px;
+  line-height: 1.2em;
+}
+#debugresponse p {
+  margin: 0 0 10px;
+  padding: 0;
+}
+
+/* form responses */
+#debugresponse.success {
+  border: 1px solid #afe4a9;
+  background: #e6ffcc;
+  margin: 0 0 1em;
+}
+#debugresponse.error {
+  border: 1px solid #f5ab8f;
+  background: #ffe0a8;
+  margin: 0 0 1em;
+}
+
+/**
+ * Links bound to user interface actions.
+ */
+a.cancel,
+a.delete {
+  color: red;
+  padding: 1px;
+}
+a.cancel:hover,
+a.delete:hover {
+  color: white;
+  background: red;
+}
+
+a.proceed {
+  color: #005cb1;
+  padding: 1px;
+}
+a.proceed:hover {
+  color: white;
+  background: #005cb1;
+}
+
+a.subdued {
+  color: #666;
+  padding: 1px;
+}
+a:hover.subdued {
+  background: #666;
+  color: #fff;
+  padding: 1px;
+}
+
+/* -------------- */
+/* Progress Chart */
+/* -------------- */
+
+table.lessons {
+  border: none;
+  margin: 0 0 1em;
+}
+table.lessons td {
+  color: #888678;
+  font: 12px Arial, sans-serif;
+  width: 67px;
+  height: 66px;
+  background: #e0ded0;
+  border-bottom: 1px solid #fffde7;
+  border-right: 1px solid #fffde7;
+  text-align: center;
+}
+.lessons td.empty {
+  background: transparent;
+  border: none;
+}
+.lessons td.completed {
+  color: #5b6c7d;
+  font-weight: bold;
+  background: #b9dcff;
+}
+.lessons td.active {
+  background: #ffea00;
+  color: #19108f;
+  font-weight: bold;
+}
+
+/* ---------------------------- */
+/* Learn More */
+/* ---------------------------- */
+
+#learn-more p.intro {
+  font: 20px/1.3em "Georgia", serif;
+}
+
+#whatisrtk_box {
+  padding-top: 1.5em;
+  font-size: 16px;
+  line-height: 1.5em;
+}
+#whatisrtk_box a {
+  white-space: nowrap;
+}
+#whatisrtk_box .book {
+  float: left;
+  margin: 0 1em 1.5em 0;
+}
+/*#whatisrtk_box .break { clear:both; }*/
+
+.stacks_legend {
+  margin: 0 0 1.5em 0;
+  padding: 1.5em;
+  background-color: $--clr-bg-nav;
+}
+.stacks_legend dl dt {
+  float: left;
+  width: 43px;
+  height: 48px;
+  clear: left;
+  margin-bottom: 1em;
+}
+.stacks_legend dl dd {
+  margin: 0 0 1em 60px;
+}
+.stacks_legend dt.failed {
+  background: url(/images/1.0/doc/stackfailed.gif) no-repeat 0 0;
+}
+.stacks_legend dt.untested {
+  background: url(/images/1.0/doc/stackuntested.gif) no-repeat 0 0;
+}
+.stacks_legend dt.expired {
+  background: url(/images/1.0/doc/stackexpired.gif) no-repeat 0 0;
+}
+.stacks_legend dt.unexpired {
+  background: url(/images/1.0/doc/stackunexpired.gif) no-repeat 0 0;
+}
+
+/* bootstrap sm-md-lg */
+@media (min-width: 768px) {
+  .mb-d-1 {
+    margin-bottom: 1em;
+  }
+  .mb-d-p50 {
+    margin-bottom: 0.5em;
+  }
+
+  #whatisrtk_box .book {
+    padding: 0 2em;
+  }
+  /*#whatisrtk_box .break { clear:none; }*/
+}
+
+/* bootstrap-md-lg */
+@media (min-width: 992px) {
+  /* position:fixed, width = col-md-3 (25%) of min "md" (992px) = 248px - padding (2x15px) */
+  #learn-more-menu {
+    position: fixed;
+    min-width: 218px;
+  }
+}
+
+/* ---------------------------- */
+/* SRS Chart page */
+/* ---------------------------- */
+
+@import "./_review-home.scss";
+
+/* ---------------------------- */
+/* Review Summary */
+/* ---------------------------- */
+
+.app-header {
+  border-bottom: 1px solid #cccccc;
+  position: relative;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+.app-header h2 {
+  float: left;
+  line-height: 1em;
+  margin: 0;
+  padding: 0 0 0.5em;
+  font-family: Georgia, serif;
+  font-size: 19px;
+  color: #10348f;
+}
+.app-header h2 a {
+  text-decoration: none;
+  font-weight: normal;
+}
+.app-header h2 a:hover {
+  text-decoration: underline;
+}
+.app-header h2 span {
+  color: #898989;
+}
+.app-header .links {
+  float: left;
+  width: 50%;
+  clear: left;
+  font-size: 12px;
+}
+.app-header .links a {
+  text-decoration: none;
+}
+.app-header .links a:hover {
+  text-decoration: underline;
+}
+
+#FcSummaryDeld {
+  margin: 10px 0 0;
+  background-color: #fff9b3;
+}
+#FcSummaryDeld h3 {
+  font: italic bold 14px/1em Georgia, serif;
+  color: #a2442b;
+}
+#FcSummaryDeld h3 span {
+  font-style: normal;
+  font-weight: normal;
+}
+#FcSummaryDeld p {
+  color: #dd5d3a;
+  margin: 0;
+  font-size: 18px;
+  line-height: 1.2em;
+}
+
+/* ---------------------------- */
+/* Sight Reading */
+/* ---------------------------- */
+
+#sight-reading form {
+  margin: 0 0 2em;
+}
+#sight-reading textarea {
+  width: 100%;
+  margin: 0 0 0.5em;
+  font-size: 16px;
+}
+#sight-reading .output {
+  font-size: 30px;
+  line-height: 1.5em;
+  background: $--clr-bg-1;
+  padding: 0.5em;
+  border-radius: 3px;
+}
+#sight-reading .output .cj-k {
+  font-family: sans-serif;
+}
+#sight-reading .output a {
+  font-style: normal;
+  font-weight: normal;
+  color: blue;
+  text-decoration: none;
+}
+#sight-reading .output a:hover {
+  background: #fff;
+  color: #000;
+}
+
+/* ---------------------------- */
+/* Full kanji list */
+/* ---------------------------- */
+
+.fullkanjilist .stats {
+  float: right;
+  width: 260px;
+  margin: 0 0 1em 1em;
+}
+
+/* ---------------------------- */
+/* ... */
+/* ---------------------------- */
+
+/*#home-qs { border-bottom:1px solid #e7e1d3; }*/
+
+#home-qs .box {
+  text-align: center;
+}
+#home-qs .hd {
+  padding: 0 0 0.5em;
+  color: #3c3c3c;
+  font-size: 130%;
+  line-height: 1.2em;
+}
+#home-qs .bd {
+  min-height: 3em;
+}
+
+#home-qs .btn-go {
+  min-width: 150px;
+}
+
+#home-qs a {
+  text-decoration: none;
+}
+#home-qs a:hover {
+}
+#home-qs a.expired {
+  color: #f0912a;
+}
+#home-qs a.failed {
+  color: #ff0000;
+}
+
+/* MEDIA-md (landscape on iPad) */
+@media all and (max-width: 800px) {
+  #home-qs .box {
+  }
+  #home-qs .hd {
+    min-height: 20px;
+  }
+  #home-qs .bd {
+  }
+}
+
+/* ----------------------------
+ * Flashcard Review
+ * ---------------------------- */
+
+/* TODO move me */
+.p-notice {
+  margin: 0 0 1em;
+  color: #cc2d7a; /*background:$--clr-bg-gl; padding:0.5em 1em;*/
+}
+.p-notice i {
+  display: inline-block;
+  padding: 0 0.5em 0 0;
+}
+
+.labs-review-box {
+  min-height: 120px;
+  margin-bottom: 1em;
+}
+.labs-review-box p {
+  margin-bottom: 1em;
+}
+.labs-review-box label {
+  display: block;
+  margin: 0 0 0.5em;
+}
+.labs-review-framenr {
+  width: 40px;
+  text-align: center;
+}
+.labs-review-box label input {
+  vertical-align: middle;
+}
+
+/* ----------------------------
+ * Manage & Account Layout
+ * ---------------------------- */
+
+.manage-view {
+  /*border:1px solid $--clr-bg-1s; border-radius:3px;*/
+}
+.manage-view h3 {
+  /*  padding:8px 10px; margin:0; font-size:13px; font-weight:bold; background-color:$--clr-bg-1; border-bottom:1px solid $--clr-bg-1m;*/
+}
+
+/* ------------------ */
+/* AjaxDialog         */
+/* ------------------ */
+@import "./legacy/ajaxdialog.css";
+
+/**
+ * Debugging Ajax Responses.
+ *
+ * @see App.AjaxFilter
+ */
+#AppAjaxFilterDebug {
+  background: #fff;
+  padding: 5px 10px;
+}
+#AppAjaxFilterDebug pre {
+  margin: 0;
+  padding: 0;
+  color: #444;
+  font: 12px/13px "Consolas", "Bitstream Vera Sans Mono", monospace;
+}
+
+/* Reset YUI Skin */
+
+.yui-skin-sam .yui-panel {
+  border: none;
+  background: rgba(0, 0, 0, 0.5); /* dark glassy effect */
+  border-radius: 4px;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+.yui-skin-sam .yui-panel-container {
+  padding: 0;
+}
+
+/* IE fixes */
+.yui-skin-sam #ie .yui-panel {
+  background: #444; /* filter:alpha(opacity = 50); opacity:0.5; affects child elements! */
+}
+
+/* close icon */
+.yui-panel .container-close {
+  width: 24px;
+  height: 24px;
+  background: url(/images/ui/icons/yui-container-close.gif) no-repeat 50% 50%;
+  top: 6px;
+  right: 6px;
+  outline: none; /* fix for the "focus first" feature of YUI Panel */
+}
+
+/* dialog body */
+.rtk-skin-dlg .yui-panel {
+  outline: none;
+}
+.rtk-skin-dlg .yui-panel .hd,
+.rtk-mobl-dlg .yui-panel .hd {
+  font: 16px/1em Verdana, sans-serif;
+  color: #ddd;
+  padding: 10px 10px 0;
+  background: none;
+}
+.rtk-skin-dlg .yui-panel .bd {
+  padding: 10px 10px 10px;
+  background: none;
+  font-size: 12px;
+  line-height: 19px;
+  color: #000;
+}
+.rtk-skin-dlg .yui-panel .ft {
+  padding: 5px 10px 10px;
+  background: none;
+  font-size: 12px;
+  line-height: 1.2em;
+  color: #000;
+}
+
+/* dialog footers, right aligned */
+.rtk-skin-dlg .ft-right {
+  clear: both;
+  width: 100%;
+  padding: 5px 0 0;
+  text-align: right;
+}
+
+/* left align buttons INSIDE ft-right */
+.rtk-skin-dlg .ft-left {
+  float: left;
+  text-align: left; /*padding from ft-right*/
+}
+
+/* dialog body wrapper for extra css styling (.rtk-skin-dlg .yui-panel .bd .body) */
+.rtk-skin-dlg .body {
+  background: #fff;
+  padding: 10px;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2) inset;
+}
+.rtk-mobl-dlg .body {
+  background: #fff;
+  padding: 10px;
+}
+
+/* dialog loading spinner with FontAwesome5 (see AjaxDialog.js -- selector must overwrite .rtk-xxxx-dlg .body) */
+.yui-panel .JsAjaxDlgLoading {
+  /* width is set in js! */
+  height: 150px;
+  background: #fff;
+  position: relative;
+}
+.yui-panel .JsAjaxDlgLoading .fa-spin {
+  font-size: 2em;
+  position: absolute;
+  left: 50%;
+  top: 60px;
+  margin-left: -0.5em;
+  color: #888;
+}
+
+/* MOBILE DIALOGS use a different "skin" parameter that lets them extend from edge to edge */
+.rtk-mobl-dlg {
+  left: 0;
+  right: 0;
+}
+.rtk-mobl-dlg .yui-panel {
+  margin: 0 auto;
+  outline: none;
+}
+/*.rtk-mobl-dlg .yui-panel .hd {  }*/
+.rtk-mobl-dlg .yui-panel .bd {
+  background: none; /* space for the close icon without hd div */ /*padding-top:35px;*/
+}
+.rtk-mobl-dlg .yui-panel .ft {
+  padding: 0;
+}
+
+/* dialog buttons, vertically stacked (mobile & desktop) */
+.uiBMenu {
+  margin-bottom: -10px;
+} /* spacing of last button (assumes outer padding) */
+.uiBMenuItem {
+  margin: 10px 0;
+}
+
+/* ------------------ */
+/* Social             */
+/* ------------------ */
+
+#custom-tweet-button {
+  margin: 2.5em 0 0;
+  max-width: 125px;
+  text-align: center;
+}
+#custom-tweet-button a {
+  display: inline-block;
+  padding: 4px 8px;
+  font-weight: bold;
+  font-size: 18px;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  background: #4faeec; /*1b95e0*/
+  border-radius: 3px;
+}
+#custom-tweet-button i {
+  width: 16px;
+  padding: 0 0.5em 0 0;
+  text-align: center;
+  color: #fff;
+}
+#custom-tweet-button span {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  font-size: 0.8em;
+}
+
+/* ------------------ */
+/* CJK Fonts          */
+/* ------------------ */
+
+/* class names output by cjk_lang_ja() helper (changes depending on Kanji/Hanzi mode) */
+.cj-k {
+  font-family: "Hiragino Mincho Pro", "ヒラギノ明朝 Pro W3", "ＭＳ 明朝",
+    "ＭＳ Ｐ明朝", serif;
+}
+.cj-s {
+  font-family: "Kaiti", "STKaiti", "Kai", "AR PL UKai CN", "Microsoft YaHei",
+    "Heiti SC", sans-serif;
+}
+.cj-t {
+  font-family: "TW-Kai", "TW-Moe-Std-Kai", "DFKai-SB", "BiauKai",
+    "AR PL UKai TW", "Microsoft JhengHei", "Heiti TC", serif;
+}
+
+// --------------------------------------------------------------------
+// (last) tailwind utilities
+// --------------------------------------------------------------------
+@import "tailwindcss/utilities";

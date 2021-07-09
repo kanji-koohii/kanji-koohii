@@ -6,13 +6,13 @@ shuffle1Success:
   metas:
     title: 'Vocab Shuffle'
 
-  javascripts: [ '/revtk/labs-alpha-flashcardreview.juicy.js' ]
+  javascripts: [ '/src/labs-alpha-flashcardreview.ts' ]
 
 shuffle2Success:
   metas:
     title: 'Vocab Shuffle'
 
-  javascripts: [ '/revtk/labs-alpha-flashcardreview.juicy.js' ]
+  javascripts: [ '/src/labs-alpha-flashcardreview.ts' ]
 
 all:
   metas:

@@ -6,35 +6,18 @@
 <?php include_metas() ?>
 <?php if (CORE_ENVIRONMENT === 'staging') { echo '<meta name="robots" content="noindex, nofollow" />'."\n"; } ?>
 <?php include_title() ?>
+  <link rel="alternate" type="application/rss+xml" title="RSS" href="rss">
 <?php 
   $pageId      = $sf_request->getParameter('module').'-'.$sf_request->getParameter('action');
-  $landingPage = $sf_request->getParameter('_landingPage');
+  $isLandingPage = $sf_request->getParameter('isLandingPage');
   $withFooter  = $sf_request->getParameter('_homeFooter') ? 'with-footer ' : '';
 
-  $fnAddBundles = function(bool $css) use ($sf_response, $landingPage)
-  {
-    $ext = $css ? '.css' : '.js';
-    $method = $css ? 'addStylesheet' : 'addJavascript';
-    static $build = KK_ENV_DEV ? '.raw' : '.min';
-    static $bundles;
+  // call it here at last, if it wasn't already triggered via view.yml (addJavascript())
+  $sf_response->addViteEntries();
 
-    $bundles = $landingPage ? ['landing-bundle'] : ['study-bundle'];
-
-    // only js for vendors bundle (no extracted css)
-    if (!$css) {
-      $sf_response->$method(implode([KK_WEBPACK_ROOT,'vendors-bundle',$build,$ext]), 'first');
-    }
-
-    foreach ($bundles as $name) {
-      $sf_response->$method(implode([KK_WEBPACK_ROOT,$name,$build,$ext]), 'first');
-    }
-  };
-
-  // include Webpack bundles extracted css
-  $fnAddBundles(true);
+  include_stylesheets();
+  include_javascripts();
 ?>
-  <link rel="alternate" type="application/rss+xml" title="RSS" href="rss">
-<?php include_stylesheets() ?>
   <link href="https://use.fontawesome.com/releases/v5.0.1/css/all.css" rel="stylesheet">
 
   <!-- thx realfavicongenerator.net -->
@@ -63,11 +46,13 @@
   class="<?php echo $withFooter ?>yui-skin-sam <?php $pageId = $sf_request->getParameter('module').'-'.$sf_request->getParameter('action'); echo $pageId; ?>">
   <div id="body-navbar-holder"></div>
 
+<div id="aside-component"></div><!-- fabd : FIXME?? TS refactor Vue3 -->
+
 <!--[if lt IE 9]><div id="ie"><![endif]--> 
 
-<?php include_partial('global/navbar', ['pageId' => $pageId, 'landingPage' => $landingPage]) ?>
+<?php include_partial('global/navbar', ['pageId' => $pageId]) ?>
 
-<?php if ($landingPage) {
+<?php if ($isLandingPage) {
   echo $sf_content;
 } else { ?>
 <div id="main">
@@ -78,33 +63,20 @@
 <?php if ($sf_request->getParameter('_homeFooter')) { include_partial('home/homeFooter'); } ?>
 <?php } ?>
 
-<?php
-  echo '<script>'.koohii_base_url()."</script>\n";
-
-  // javascript bundles
-  $fnAddBundles(false);
-
-  if (!$landingPage) {
-    // the legacy "vendors" (yui2) bundle, AFTER webpack bundles, BEFORE other old bundles
-    $sf_response->addJavascript('/revtk/legacy-bundle.juicy.js', 'first');
-  }
-
-  include_javascripts();
-
-  echo
-    "<script>\n" .
-    get_slot('inline_javascript') .
-    "</script>\n";
-?>
+<?php kk_globals_out() ?>
+<?php koohii_onload_slots_out() ?>
 
 <script>
 var koohii_nav_data = <?php echo json_encode(get_slot('koohii.nav.data'), /*JSON_PRETTY_PRINT |*/ JSON_UNESCAPED_SLASHES) ?>;
 
-Koohii.Dom('#k-slide-nav-btn').on("click", function(){
-  Koohii.UX.KoohiiAside.open({
-    navOptionsMenu: koohii_nav_data
+// (fabd) note javascript modules are deferred, and not yet available
+window.addEventListener("DOMContentLoaded", () => {
+  document.querySelector('#k-slide-nav-btn').addEventListener("click", function() {
+    Koohii.UX.KoohiiAside.open({
+      navOptionsMenu: koohii_nav_data
+    })
   })
-})
+});
 </script>
 
 <?php if (KK_ENV_DEV):  ?>

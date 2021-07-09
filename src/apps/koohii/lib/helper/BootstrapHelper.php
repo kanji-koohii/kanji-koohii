@@ -223,21 +223,68 @@ function _bs_submit_tag($label, $options = []) {
 }
 
 
-
-/**
- * Just a proxy for now to ease refactoring later. Start inline javascriot
- * slot, which is included at end of document *AFTER* the javascript bundles.
- *
- * Put it here for now (included in config/settings.yml default helpers)
- *
- */
-function koohii_onload_slot() {
-  $name = 'inline_javascript';
+function koohii_onload_slot()
+{
+  $name = 'koohii_onload_js';
   $prevContent = get_slot($name);
   slot($name);
-  print $prevContent;
+  echo $prevContent;
+  echo "console.log('koohii_onload_slot()')\n";
 }
 
-function koohii_base_url() {
-  return 'window.KK_BASE_URL = "'.url_for('@homepage', true).'";';
+function koohii_onload_slots_out()
+{
+  if ($s = get_slot('koohii_onload_js'))
+  {
+    echo "<script>\n",
+    '/* Koohii onload slot */ ',
+    "window.addEventListener('DOMContentLoaded',function(){\n", $s, "});</script>\n";
+  }
+}
+
+define('KK_GLOBALS', 'kk.globals');
+
+/**
+ * Helper to "hydrate" template with data for the frontend.
+ *
+ * Use `kk_globals_get()` in Javascript (cf. globals.d.ts)
+ *
+ * Conveniently, this hydration happens BEFORE defered modules
+ * from Vite build are run, since defered modules happen after
+ * the document is parsed, and <script>'s are part of the document.
+ *
+ * @param string $name  the key name (convention ALL_UPPERCASE)
+ * @param mixed  $value any valid value that parses to JSON (string, boolean, null, etc)
+ */
+function kk_globals_put(string $name, $value)
+{
+  $kk_globals = sfConfig::get(KK_GLOBALS);
+  if (null === $kk_globals)
+  {
+    $kk_globals = new sfParameterHolder();
+    sfConfig::set(KK_GLOBALS, $kk_globals);
+  }
+  $kk_globals->set($name, $value);
+}
+
+/**
+ * Call once in the main layout template to output all KK.* globals.
+ */
+
+function kk_globals_out()
+{
+  kk_globals_put('BASE_URL', url_for('@homepage', true));
+
+  if (null !== ($kk_globals = sfConfig::get(KK_GLOBALS)))
+  {
+    $values = json_encode($kk_globals->getAll());
+
+    $lines = [];
+    foreach ($kk_globals->getAll() as $name => $value)
+    {
+      $lines[] = "KK.{$name} = ".json_encode($value);
+    }
+
+    echo "\n<script>\nwindow.KK || (KK = {});\n".implode("\n", $lines)."\n</script>\n";
+  }
 }

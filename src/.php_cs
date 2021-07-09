@@ -18,6 +18,12 @@ return PhpCsFixer\Config::create()
 
         // *don't* prematurely remove else's when I'm just testing something
         'no_useless_else' => null,
+
+        // *don't* reorder public/private/etc: causes too much diffs, doesn't help much
+        'ordered_class_elements' => null,
+
+        // *don't* prematurely rewrite my return statements
+        'return_assignment' => null,
         
         // for ($i = 0;; ++$i)  ==>  for ($i = 0; ; ++$i) 
         'space_after_semicolon' => ['remove_in_empty_for_expressions' => false],

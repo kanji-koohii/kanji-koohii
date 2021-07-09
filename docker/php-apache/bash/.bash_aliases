@@ -50,11 +50,19 @@ phpini() { vim /etc/php/7.4/apache2/conf.d/koohii.php.ini ; }
 ###############
 
 alias sass='./node_modules/.bin/node-sass'
+alias vite='./node_modules/.bin/vite'
+alias vue-tsc='./node_modules/.bin/vue-tsc'
+
+# npm-check-updates very handy to upgrade packages
+alias ncu='./node_modules/.bin/ncu'
 
 
 ###############
 # KOOHII DEV
 ###############
+
+# build / production
+alias kkbuild='php batch/build_app.php -w web --vite web/build/dist/manifest.json -o config/vite-build.inc.php'
 
 # build / alias for favicon generator (see src/web/favicons/README.md)
 alias real-favicon=./node_modules/.bin/real-favicon

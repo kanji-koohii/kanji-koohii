@@ -1,31 +1,37 @@
 createSuccess:
   metas:
-    title: 'Create Account'
+    title: "Create Account"
 
 deleteSuccess:
   metas:
-    title: 'Delete Your Account'
+    title: "Delete Your Account"
 
 editSuccess:
   metas:
-    title: 'Edit Account'
+    title: "Edit Account"
 
 flashcardsSuccess:
   metas:
-    title: 'Flashcards Settings'
+    title: "Flashcards Settings"
 
 forgotPasswordSuccess:
   metas:
-    title: 'Forgot your password?',
+    title: "Forgot your password?"
 
 passwordSuccess:
   metas:
-    title: 'Change Password'
+    title: "Change Password"
 
 sequenceSuccess:
   metas:
-    title: 'Select Kanji Sequence'
+    title: "Select Kanji Sequence"
+
+spacedrepetitionSuccess:
+  metas:
+    title: "Spaced Repetition Settings"
+  javascripts:
+    - src/entry-account.ts
 
 all:
   metas:
-    robots: 'noindex, nofollow'
+    robots: "noindex, nofollow"

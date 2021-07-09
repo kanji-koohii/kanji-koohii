@@ -1,0 +1,33 @@
+/**
+ * Edit Keyword Dialog CSS.
+ *
+ * Used on Study page, Manage > Edit Keywords page.
+ *
+ */
+
+/* dialog body */
+#edit-keyword { width:367px; }
+#edit-keyword p { margin:0 0 8px; }
+#edit-keyword .txt-ckw { 
+  display:block; 
+  width: 100%;
+  padding:3px 4px;
+  margin:0;
+  border:1px solid #e0e0e0;
+  background:#fffde7;
+  font:19px/1em Georgia, serif; 
+}
+#edit-keyword .reset { color:#f37200; text-decoration:underline; margin-right:2em; }
+
+/* Editable keyword highlight */
+
+.JSEditKeyword { 
+  padding:2px 5px;
+  border-radius:3px 3px;
+  -moz-border-radius:3px 3px;
+  -webkit-border-radius:3px 3px;
+  }
+.JSEditKeyword:hover {
+  background:#e9e9e9;
+  }
+

@@ -411,8 +411,8 @@ class studyActions extends sfActions
 
       // STATE (load state for the "Edit Story" Vue comp in flashcard page)
       $tron->add([
-        'postStoryEdit'   => $postStoryEdit,
-        'postStoryPublic' => (bool) ($storedStory && $storedStory->public)
+        'initStoryEdit'   => $postStoryEdit,
+        'initStoryPublic' => (bool) ($storedStory && $storedStory->public)
       ]);
 
       // Flashcard Review page feayure -- get "favorite" story, if user's edit story is empty
@@ -424,12 +424,10 @@ class studyActions extends sfActions
           $postStoryEdit = $favStory->text;
 
           // the user's own story is empty, if editing
-          $tron->set('postStoryEdit', '');
-          $tron->set('isFavoriteStory', true);
-
+          $tron->set('initStoryEdit', '');
+          $tron->set('initFavoriteStory', true);
         }
       }
-
     }
     else
     {
@@ -510,7 +508,7 @@ class studyActions extends sfActions
 
     // POST state
     $tron->add([
-      'postStoryView' => StoriesPeer::getFormattedStory($postStoryEdit, $formatKeyword, true)
+      'initStoryView' => StoriesPeer::getFormattedStory($postStoryEdit, $formatKeyword, true)
     ]);
 
 // sleep(1);

@@ -1,23 +1,20 @@
 indexGuest:
   metas:
-    title:  'Kanji Koohii'
-  
-  # reset the site-wide styles & scripts for the landing page
-  #javascripts: [-*]
-  #stylesheets: [-*]
+    title: "Kanji Koohii"
+  javascripts:
+    - src/entry-landing.ts
 
 loginSuccess:
   metas:
-    title:  'Sign In - Kanji Koohii'
-    robots: 'noindex, follow'
-  
+    title: "Sign In - Kanji Koohii"
+    robots: "noindex, follow"
+
 contactSuccess:
   metas:
-    title:  'Contact - Kanji Koohii'
-    robots: 'noindex, follow'
+    title: "Contact - Kanji Koohii"
+    robots: "noindex, follow"
 
 memberslistSuccess:
   metas:
-    title:  'Who''s reviewing? - Kanji Koohii'
-    robots: 'noindex, nofollow'
-
+    title: "Who's reviewing? - Kanji Koohii"
+    robots: "noindex, nofollow"

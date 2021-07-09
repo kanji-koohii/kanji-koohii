@@ -1,18 +1,20 @@
 index:
   metas:
-    title: 'Study: Introduction'
-  
+    title: "Study: Introduction"
+
 edit:
   metas:
-    title: 'Index'
-  
+    title: "Index"
+
 failedlist:
   metas:
-    title: 'Study: Failed Kanji List'
-  
+    title: "Study: Failed Kanji List"
+
 mystories:
   metas:
-    title: 'Study: My Stories List'
-  
-all:
-  javascripts: [ '/revtk/study-base.juicy.js' ]
+    title: "Study: My Stories List"
+
+# NOTE!  entry-study is currently a common bundle added by coreWebResponse::addViteEntries()
+# all:
+#   javascripts: [ 'src/entry-study.ts' ]
+

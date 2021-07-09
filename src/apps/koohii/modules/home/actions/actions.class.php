@@ -15,12 +15,10 @@ class homeActions extends sfActions
       $this->countExpired = ReviewsPeer::getCountExpired($this->getUser()->getUserId());
       $this->countFailed = ReviewsPeer::getRestudyKanjiCount($this->getUser()->getUserId());
 
-      $request->setParameter('_landingPage', 0);
-
       return 'Member';
     }
     
-    $request->setParameter('_landingPage', 1);
+    $request->setParameter('isLandingPage', true);
  //   $this->setLayout('landingpageLayout');
     return 'Guest';
   }
